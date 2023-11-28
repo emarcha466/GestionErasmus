@@ -35,3 +35,12 @@ INSERT INTO itemBaremable (nombre) VALUES
     ('Informe de Idoneidad'),
     ('Nota Media'),
     ('Entrevista Personal');
+
+-- convocatorias
+INSERT INTO convocatoria (num_movilidades, duracion, tipo, fechaIniSolicitud, fechaFinSolicitud, fechaIniPruebas, fechaFinPruebas, fechaListadoProvisional, fechaListadoDefinitivo, codigoProyecto, destino)
+VALUES
+     (6, 95, 'Larga duración', '2023-01-01', '2023-02-28', '2023-03-01', '2023-04-30', '2023-05-01', '2023-06-30', 'PROJ001', 'Destino1'),
+     (6, 85, 'Corta duración', '2023-06-01', '2023-06-30', '2023-07-01', '2023-07-31', '2023-08-01', '2023-08-31', 'PROJ002', 'Destino2'),
+     (6, 100, 'Larga duración', '2023-11-01', '2023-11-30', '2023-12-01', '2023-12-31', '2024-01-01', '2023-01-31', 'PROJ003', 'Destino3'),
+     (6, 80, 'Corta duración', '2023-10-01', '2023-10-31', '2023-11-01', '2023-11-30', '2023-12-01', '2023-12-31', 'PROJ004', 'Destino4'),
+     (6, 105, 'Larga duración', '2023-09-01', '2023-10-31', '2023-11-01', '2023-12-31', '2024-01-01', '2024-02-28', 'PROJ005', 'Destino5');
