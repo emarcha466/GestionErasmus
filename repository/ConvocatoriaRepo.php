@@ -165,18 +165,18 @@ class ConvocatoriaRepo{
                 :fechaFinSolicitud, :fechaIniPruebas, :fechaFinPruebas, :fechaListadoProvisional, :fechaListadoDefinitivo, :codigoProyecto, :destino);";
             $stmt = $conexion->prepare($insert);
             $params = [
-            ':id' => $convocatoria->getId(),
-            ':num_movilidades' => $convocatoria->getNumMovilidades(),
-            ':duracion' => $convocatoria->getDuracion(),
-            ':tipo' => $convocatoria->getTipo(),
-            ':fechaIniSolicitud' => $convocatoria->getFechaIniSolicitud(),
-            ':fechaFinSolicitud' => $convocatoria->getFechaFinSolicitud(),
-            ':fechaIniPruebas' => $convocatoria->getFechaIniPruebas(),
-            ':fechaFinPruebas' => $convocatoria->getFechaFinPruebas(),
-            ':fechaListadoProvisional' => $convocatoria->getFechaListadoProvisional(),
-            ':fechaListadoDefinitivo' => $convocatoria->getFechaListadoDefinitivo(),
-            ':codigoProyecto' => $convocatoria->getCodigoProyecto(),
-            ':destino' => $convocatoria->getDestino()
+                ':id' => $convocatoria->getId(),
+                ':num_movilidades' => $convocatoria->getNumMovilidades(),
+                ':duracion' => $convocatoria->getDuracion(),
+                ':tipo' => $convocatoria->getTipo(),
+                ':fechaIniSolicitud' => $convocatoria->getFechaIniSolicitud(),
+                ':fechaFinSolicitud' => $convocatoria->getFechaFinSolicitud(),
+                ':fechaIniPruebas' => $convocatoria->getFechaIniPruebas(),
+                ':fechaFinPruebas' => $convocatoria->getFechaFinPruebas(),
+                ':fechaListadoProvisional' => $convocatoria->getFechaListadoProvisional(),
+                ':fechaListadoDefinitivo' => $convocatoria->getFechaListadoDefinitivo(),
+                ':codigoProyecto' => $convocatoria->getCodigoProyecto(),
+                ':destino' => $convocatoria->getDestino()
             ];
             $stmt->execute($params);
             $rows = $stmt->rowCount();

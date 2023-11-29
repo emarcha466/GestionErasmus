@@ -84,6 +84,42 @@ class SolicitudoRepo{
      * @return boolean True coincide, False si no coincide
      */
     public static function solicitarSolicitud($id,$dni,$pass){
+        $conexion = GBD::getConexion();
+        $select = "select * from solicitud where id = :id and dni like :dni and pass like :pass";
+        $stmt = $conexion ->prepare($select);
+        $stmt ->bindParam(':id',$id);
+        $stmt ->bindParam(':dni',$dni);
+        $stmt ->bindParam(':pass',$pass);
+        $stmt -> execute();
+        $solicitud = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $solicitudObject = new Solicitud(
+            $solicitud['id'],
+            $solicitud['dni'],
+            $solicitud['apellidos'],
+            $solicitud['nombre'],
+            $solicitud['fechaNac'],
+            $solicitud['curso'],
+            $solicitud['telefono'],
+            $solicitud['correo'],
+            $solicitud['domicilio'],
+            $solicitud['pass'],
+            $solicitud['idConvocatoria'],
+            $solicitud['dniTutor'],
+            $solicitud['apellidosTutor'],
+            $solicitud['nombreTutor'],
+            $solicitud['telefonoTutor'],
+            $solicitud['domicilioTutor']
+        );
+        return $solicitudObject;
+    }
+
+    /**
+     * Funcion que elimina una solicitud por su id
+     * 
+     * @param int $id ID 
+     */
+    public static function deleteSolicitudById($id){
 
     }
 }
