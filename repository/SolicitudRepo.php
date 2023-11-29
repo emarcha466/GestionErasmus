@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . "\GestionErasmus/helpers/autocargador.php";
-class SolicitudoRepo
+class SolicitudRepo
 {
 
     /**
@@ -30,6 +30,7 @@ class SolicitudoRepo
                 $solicitud['domicilio'],
                 $solicitud['pass'],
                 $solicitud['idConvocatoria'],
+                $solicitud['imagen'],
                 $solicitud['dniTutor'],
                 $solicitud['apellidosTutor'],
                 $solicitud['nombreTutor'],
@@ -68,6 +69,7 @@ class SolicitudoRepo
             $solicitud['domicilio'],
             $solicitud['pass'],
             $solicitud['idConvocatoria'],
+            $solicitud['imagen'],
             $solicitud['dniTutor'],
             $solicitud['apellidosTutor'],
             $solicitud['nombreTutor'],
@@ -84,7 +86,7 @@ class SolicitudoRepo
      * @param int $id Id de la solicitud
      * @param string $dni Dni de la persona que ha escrito en la solicituda
      * @param string $pass Constraseña establecida en la solicitud
-     * @return boolean True coincide, False si no coincide
+     * @return solicitud/boolean  Solicitud si coinciden los credenciales, False si no coincide, 
      */
     public static function solicitarSolicitud($id, $dni, $pass)
     {
@@ -97,24 +99,32 @@ class SolicitudoRepo
         $stmt->execute();
         $solicitud = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $solicitudObject = new Solicitud(
-            $solicitud['id'],
-            $solicitud['dni'],
-            $solicitud['apellidos'],
-            $solicitud['nombre'],
-            $solicitud['fechaNac'],
-            $solicitud['curso'],
-            $solicitud['telefono'],
-            $solicitud['correo'],
-            $solicitud['domicilio'],
-            $solicitud['pass'],
-            $solicitud['idConvocatoria'],
-            $solicitud['dniTutor'],
-            $solicitud['apellidosTutor'],
-            $solicitud['nombreTutor'],
-            $solicitud['telefonoTutor'],
-            $solicitud['domicilioTutor']
-        );
+        //Si las credenciales de la solicitud no es correcta
+        if ($solicitud == false) {
+            $solicitudObject = false;
+        } //si si son correctas
+        else {
+            $solicitudObject = new Solicitud(
+                $solicitud['id'],
+                $solicitud['dni'],
+                $solicitud['apellidos'],
+                $solicitud['nombre'],
+                $solicitud['fechaNac'],
+                $solicitud['curso'],
+                $solicitud['telefono'],
+                $solicitud['correo'],
+                $solicitud['domicilio'],
+                $solicitud['pass'],
+                $solicitud['idConvocatoria'],
+                $solicitud['imagen'],
+                $solicitud['dniTutor'],
+                $solicitud['apellidosTutor'],
+                $solicitud['nombreTutor'],
+                $solicitud['telefonoTutor'],
+                $solicitud['domicilioTutor']
+            );
+        }
+
         return $solicitudObject;
     }
 
@@ -126,14 +136,26 @@ class SolicitudoRepo
      */
     public static function deleteSolicitudById($id)
     {
-        $conexion = GBD::getConexion();
-        $delete = "delete from solicitud where id = :id";
-        $stmt = $conexion->prepare($delete);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        $rows = $stmt->rowCount();
+        try {
+            $conexion = GBD::getConexion();
+            $delete = "delete from solicitud where id = :id";
+            $stmt = $conexion->prepare($delete);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            $rows = $stmt->rowCount();
 
-        return $rows;
+            return $rows;
+        } catch (PDOException $e) {
+            if ($e->getCode() == 23000) {
+                // excepcion que salta al intentar eliminar una solicitud que se encuentra en baremacion
+                http_response_code(400);
+                echo json_encode(array("status" => "error", "message" => "No se puede eliminar el proyecto ya que existe una convocatoria para el proyecto"));
+            } else {
+                //Cualquier otra excepcion
+                http_response_code(400);
+                echo json_encode(array("status" => "error", "message" => $e->getMessage()));
+            }
+        }
     }
 
     /**
@@ -147,7 +169,7 @@ class SolicitudoRepo
         $conexion = GBD::getConexion();
         $update = "UPDATE solicitud SET dni = :dni, apellidos = :apellidos, nombre = :nombre, fechaNac = :fechaNac, 
         curso = :curso, telefono = :telefono, correo = :correo, domicilio = :domicilio, pass = :pass, 
-        idConvocatoria = :idConvocatoria, dniTutor = :dniTutor, apellidosTutor = :apellidosTutor, nombreTutor = :nombreTutor, 
+        idConvocatoria = :idConvocatoria, imagen = :imagen, dniTutor = :dniTutor, apellidosTutor = :apellidosTutor, nombreTutor = :nombreTutor, 
         telefonoTutor = :telefonoTutor, domicilioTutor = :domicilioTutor WHERE id = :id;";
         $stmt = $conexion->prepare($update);
         $params = [
@@ -162,6 +184,7 @@ class SolicitudoRepo
             ':domicilio' => $solicitud->getDomicilio(),
             ':pass' => $solicitud->getPass(),
             ':idConvocatoria' => $solicitud->getIdConvocatoria(),
+            ':imagen' => $solicitud->getImagen(),
             ':dniTutor' => $solicitud->getDniTutor(),
             ':apellidosTutor' => $solicitud->getApellidosTutor(),
             ':nombreTutor' => $solicitud->getNombreTutor(),
@@ -185,9 +208,9 @@ class SolicitudoRepo
         try {
             $conexion = GBD::getConexion();
             $insert = "INSERT INTO solicitud (id, dni, apellidos, nombre, fechaNac, curso, telefono, correo,
-                domicilio, pass, idConvocatoria, dniTutor, apellidosTutor, nombreTutor, telefonoTutor, domicilioTutor) 
+                domicilio, pass, idConvocatoria, imagen, dniTutor, apellidosTutor, nombreTutor, telefonoTutor, domicilioTutor) 
                 VALUES (:id, :dni, :apellidos, :nombre, :fechaNac, :curso, :telefono, :correo, :domicilio, :pass, 
-                :idConvocatoria, :dniTutor, :apellidosTutor, :nombreTutor, :telefonoTutor, :domicilioTutor);";
+                :idConvocatoria, :imagen, :dniTutor, :apellidosTutor, :nombreTutor, :telefonoTutor, :domicilioTutor);";
             $stmt = $conexion->prepare($insert);
             $params = [
                 ':id' => $solicitud->getId(),
@@ -201,12 +224,13 @@ class SolicitudoRepo
                 ':domicilio' => $solicitud->getDomicilio(),
                 ':pass' => $solicitud->getPass(),
                 ':idConvocatoria' => $solicitud->getIdConvocatoria(),
+                ':imagen' => $solicitud->getImagen(),
                 ':dniTutor' => $solicitud->getDniTutor(),
                 ':apellidosTutor' => $solicitud->getApellidosTutor(),
                 ':nombreTutor' => $solicitud->getNombreTutor(),
                 ':telefonoTutor' => $solicitud->getTelefonoTutor(),
                 ':domicilioTutor' => $solicitud->getDomicilioTutor()
-            ];                          
+            ];
             $stmt->execute($params);
             $rows = $stmt->rowCount();
 
