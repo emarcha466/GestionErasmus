@@ -1,5 +1,6 @@
 <?php
-class Candidato implements JsonSerializable {
+class Solicitud implements JsonSerializable {
+    private $id;
     private $dni;
     private $apellidos;
     private $nombre;
@@ -19,8 +20,9 @@ class Candidato implements JsonSerializable {
 
     // constructor
     // los datos del tutor son opcionales
-    public function __construct($dni, $apellidos, $nombre, $fechaNac, $curso, $telefono, $correo, $domicilio, $pass, $idConvocatoria, 
+    public function __construct($id, $dni, $apellidos, $nombre, $fechaNac, $curso, $telefono, $correo, $domicilio, $pass, $idConvocatoria, 
     $dniTutor = null, $apellidosTutor = null, $nombreTutor = null, $telefonoTutor = null, $domicilioTutor = null) {
+        $this->id = $id;
         $this->dni = $dni;
         $this->apellidos = $apellidos;
         $this->nombre = $nombre;
@@ -43,6 +45,7 @@ class Candidato implements JsonSerializable {
 
     public function jsonSerialize(){
         return [
+            'id' => $this->id,
             'dni' => $this->dni,
             'apellidos' => $this->apellidos,
             'nombre' => $this->nombre,
@@ -63,6 +66,11 @@ class Candidato implements JsonSerializable {
 
     //getters y setters
 
+    public function getId() {
+        return $this->id;
+    }
+
+    
     public function getDni() {
         return $this->dni;
     }

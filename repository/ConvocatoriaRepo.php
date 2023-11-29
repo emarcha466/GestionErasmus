@@ -47,7 +47,7 @@ class ConvocatoriaRepo{
         $stmt = $conexion->prepare($select);
         $stmt ->bindParam(':id', $id);
         $stmt ->execute();
-        $convocatoria = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $convocatoria = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $convoatoriaObject = new Convocatoria(
             $convocatoria['id'],
@@ -192,7 +192,18 @@ class ConvocatoriaRepo{
             }
         }
     }
-
-
-
 }   
+
+$convocatoria = new Convocatoria(null, 10, 150, 'Larga duración', '2023-01-01', '2023-02-28', '2023-03-01', '2023-04-30',
+    '2023-05-01', '2023-06-30', 'PROJ005', 'Destino12');
+
+$convocatoria2 = new Convocatoria(1, 10, 150, 'Larga duración', '2023-01-01', '2023-02-28', '2023-03-01', '2023-04-30',
+'2023-05-01', '2023-06-30', 'PROJ005', 'Destino12');
+
+$date = date('Y-m-d');
+//var_dump(ConvocatoriaRepo::setConvocatoria($convocatoria));
+//var_dump(ConvocatoriaRepo::updateConvocatoria($convocatoria2));
+//var_dump(ConvocatoriaRepo::deleteConvocatoriaById(8));
+//var_dump(ConvocatoriaRepo::getConvocatorias());
+//var_dump(ConvocatoriaRepo::getConvocatoriaById(1));
+//var_dump(ConvocatoriaRepo::getConvocatoriasEnPeriodoSolicitud($date));
