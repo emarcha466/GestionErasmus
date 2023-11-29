@@ -53,7 +53,7 @@ CREATE TABLE convocatoria_destinatario
 (
     codigoGrupo    varchar(6),
     idConvocatoria int(3),
-    constraint convocatoria_destinatario_pk primary key (codigoGrupo,idConvocatoria),
+    constraint convocatoria_destinatario_pk primary key (codigoGrupo, idConvocatoria),
     constraint convocatoria_destinatario_fk_convocatoria foreign key (idConvocatoria) references convocatoria (id),
     constraint convocatoria_destinatario_fk_destinatario foreign key (codigoGrupo) references destinatario (codigoGrupo)
 );
@@ -61,7 +61,7 @@ CREATE TABLE convocatoria_destinatario
 -- tabla que almacena los datos de una solicitud a una convocatoria (la persona que se presenta)
 CREATE TABLE solicitud
 (
-    id int(3) primary key auto_increment,
+    id             int(3) primary key auto_increment,
     dni            varchar(9),
     apellidos      varchar(100) not null,
     nombre         varchar(100) not null,
@@ -71,6 +71,7 @@ CREATE TABLE solicitud
     correo         varchar(30)  not null,
     domicilio      varchar(50),
     pass           varchar(30),
+    imagen         varchar(200),
     idConvocatoria int(3),
     dniTutor       varchar(9),
     apellidosTutor varchar(100),
@@ -79,7 +80,6 @@ CREATE TABLE solicitud
     domicilioTutor varchar(50),
     constraint candidato_fk_convocatoria foreign key (idConvocatoria) references convocatoria (id)
 );
-
 
 
 
@@ -95,7 +95,7 @@ CREATE TABLE convocatoria_itemBaremable
     valorMinimo    int(2),
     aportaAlumno   varchar(2),
 
-    constraint convocatoria_itemBaremable_pk primary key (idConvocatoria,idItem),
+    constraint convocatoria_itemBaremable_pk primary key (idConvocatoria, idItem),
     constraint convocatoria_itemBaremable_fk_convocatoria foreign key (idConvocatoria) references convocatoria (id),
     constraint convocatoria_itemBaremable_fk_itemBaremable foreign key (idItem) references itemBaremable (id)
 );
@@ -109,9 +109,9 @@ CREATE TABLE convocatoria_solicitud_baremacion
     nota            int(2),
     url             varchar(100),
     constraint convocatoria_solicitud_baremacion_pk primary key (idConvocatoria, idSolicitud, idItemBaremable),
-    constraint convocatoria_solicitud_baremacion_fk_convocatoria foreign key (idConvocatoria) references convocatoria_itemBaremable(idConvocatoria),
-    constraint convocatoria_solicitud_baremacion_fk_solicitud foreign key (idSolicitud) references solicitud(id),
-    constraint convocatoria_solicitud_baremacion_fk_itemBaremable foreign key (idItemBaremable) references convocatoria_itemBaremable(idItem)
+    constraint convocatoria_solicitud_baremacion_fk_convocatoria foreign key (idConvocatoria) references convocatoria_itemBaremable (idConvocatoria),
+    constraint convocatoria_solicitud_baremacion_fk_solicitud foreign key (idSolicitud) references solicitud (id),
+    constraint convocatoria_solicitud_baremacion_fk_itemBaremable foreign key (idItemBaremable) references convocatoria_itemBaremable (idItem)
 );
 
 -- tabla que establece el valor que tendrá cada nivel de idioma en la convocatoria
@@ -121,7 +121,7 @@ CREATE TABLE convocatoriaBaremoIdioma
     idConvocatoria int(3),
     puntos         int(2),
 
-    constraint convocatoriaBaremoIdioma_nivelIdioma_PK primary key (idConvocatoria,idIdioma),
+    constraint convocatoriaBaremoIdioma_nivelIdioma_PK primary key (idConvocatoria, idIdioma),
     constraint convocatoriaBaremoIdioma_nivelIdioma foreign key (idIdioma) references nivelIdioma (id),
     constraint convocatoriaBaremoIdioma_Convocatoria foreign key (idConvocatoria) references convocatoria (id)
 );

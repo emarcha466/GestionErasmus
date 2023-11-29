@@ -11,6 +11,7 @@ class Solicitud implements JsonSerializable {
     private $domicilio;
     private $pass;
     private $idConvocatoria;
+    private $imagen;
     private $dniTutor;
     private $apellidosTutor;
     private $nombreTutor;
@@ -21,7 +22,7 @@ class Solicitud implements JsonSerializable {
     // constructor
     // los datos del tutor son opcionales
     public function __construct($id, $dni, $apellidos, $nombre, $fechaNac, $curso, $telefono, $correo, $domicilio, $pass, $idConvocatoria, 
-    $dniTutor = null, $apellidosTutor = null, $nombreTutor = null, $telefonoTutor = null, $domicilioTutor = null) {
+    $imagen, $dniTutor = null, $apellidosTutor = null, $nombreTutor = null, $telefonoTutor = null, $domicilioTutor = null) {
         $this->id = $id;
         $this->dni = $dni;
         $this->apellidos = $apellidos;
@@ -33,6 +34,7 @@ class Solicitud implements JsonSerializable {
         $this->domicilio = $domicilio;
         $this->pass = $pass;
         $this->idConvocatoria = $idConvocatoria;
+        $this->imagen = $imagen;
         $this->dniTutor = $dniTutor;
         $this->apellidosTutor = $apellidosTutor;
         $this->nombreTutor = $nombreTutor;
@@ -56,6 +58,7 @@ class Solicitud implements JsonSerializable {
             'domicilio' => $this->domicilio,
             'pass' => $this->pass,
             'idConvocatoria' => $this->idConvocatoria,
+            'imagen' => $this->imagen,
             'dniTutor' => $this->dniTutor,
             'apellidosTutor' => $this->apellidosTutor,
             'nombreTutor' => $this->nombreTutor,
@@ -149,6 +152,14 @@ class Solicitud implements JsonSerializable {
 
     public function setIdConvocatoria($idConvocatoria) {
         $this->idConvocatoria = $idConvocatoria;
+    }
+
+    public function getImagen() {
+        return $this->imagen;
+    }
+
+    public function setImagen($imagen) {
+        $this->imagen = $imagen;
     }
 
     public function getDniTutor() {
