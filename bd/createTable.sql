@@ -129,6 +129,6 @@ CREATE TABLE convocatoriaBaremoIdioma
 -- tabla que almacena los administradores
 CREATE TABLE user
 (
-    dni  varchar(9) primary key,
+    usuario  varchar(20) primary key,
     pass varchar(30)
 );

@@ -1,5 +1,5 @@
 -- usuarios
-insert into user (dni, pass) values ('11111111H','1234'),('54254654T','1234');
+insert into user (usuario, pass) values ('manolo','1234'),('silverio','1234');
 
 --  proyectos
 INSERT INTO proyecto (codigoProyecto, nombreProyecto, fechaInicio, fechaFin) VALUES
@@ -48,13 +48,13 @@ VALUES
 
 -- solicitudes
 INSERT INTO solicitud (dni, apellidos, nombre, fechaNac, curso, telefono, correo, domicilio, pass, idConvocatoria, dniTutor, apellidosTutor, nombreTutor, telefonoTutor, domicilioTutor, imagen) VALUES
-('21460184B', 'García', 'Juan', '2000-01-01', '1DAW', '666666666', 'juan@gmail.com', 'Calle Falsa 123', '1234', 1, NULL, NULL, NULL, NULL, NULL, '/recursos/profile/img.png'),
-('44068965E', 'Martínez', 'Ana', '2001-02-02', '1DAW', '666666666', 'ana@gmail.com', 'Calle Verdadera 234', '1234', 2, NULL, NULL, NULL, NULL, NULL, '/recursos/profile/img.png'),
-('06841683B', 'Rodríguez', 'Pedro', '2002-03-03', '2DAW', '666666666', 'pedro@gmail.com', 'Avenida Principal 345', '1234', 3, NULL, NULL, NULL, NULL, NULL, '/recursos/profile/img.png'),
-('24535837N', 'López', 'María', '2003-04-04', '2DAW', '666666666', 'maria@gmail.com', 'Plaza Mayor 456', '1234', 4, NULL, NULL, NULL, NULL, NULL, '/recursos/profile/img.png'),
-('48701978F', 'González', 'Luis', '2004-05-05', '2SEA', '666666666', 'luis@gmail.com', 'Calle Secundaria 567', '1234', 5, NULL, NULL, NULL, NULL, NULL, '/recursos/profile/img.png'),
-('80749342E', 'Pérez', 'Laura', '2005-06-06', '2SEA', '666666666', 'laura@gmail.com', 'Calle Tercera 678', '1234', 6, '46849093W', 'Pérez', 'Carlos', '777777777', 'Calle Cuarta 789', '/recursos/profile/img.png'),
-('27598239X', 'Sánchez', 'Carlos', '2006-07-07', '1SEA', '666666666', 'carlos@gmail.com', 'Calle Quinta 789', '1234', 1, '73158992V', 'Sánchez', 'Luisa', '777777777', 'Calle Sexta 890', '/recursos/profile/img.png'),
-('43313335B', 'Torres', 'Elena', '2007-08-08', '2MI', '666666666', 'elena@gmail.com', 'Calle Séptima 890', '1234', 2, '71732694H', 'Torres', 'Manuel', '777777777', 'Calle Octava 901', '/recursos/profile/img.png'),
-('09123445N', 'Navarro', 'Manuel', '2008-09-09', '2MI', '666666666', 'manuel@gmail.com', 'Calle Novena 901', '1234', 3, '67091510G', 'Navarro', 'Elena', '777777777', 'Calle Décima 012', '/recursos/profile/img.png'),
-('51946667V', 'Ruiz', 'Sara', '2009-10-10', '2ER', '666666666', 'sara@gmail.com', 'Calle Undécima 012', '1234', 4, '37283527K', 'Ruiz', 'Juan', '777777777', 'Calle Duodécima 123', '/recursos/profile/img.png');
+('21460184B', 'García', 'Juan', '2000-01-01', '1DAW', '666666666', 'juan@gmail.com', 'Calle Falsa 123', '1234', 1, NULL, NULL, NULL, NULL, NULL, '/recursos/imgSolicitud/hombre.png'),
+('44068965E', 'Martínez', 'Ana', '2001-02-02', '1DAW', '666666666', 'ana@gmail.com', 'Calle Verdadera 234', '1234', 2, NULL, NULL, NULL, NULL, NULL, '/recursos/imgSolicitud/hombre.png'),
+('06841683B', 'Rodríguez', 'Pedro', '2002-03-03', '2DAW', '666666666', 'pedro@gmail.com', 'Avenida Principal 345', '1234', 3, NULL, NULL, NULL, NULL, NULL, '/recursos/imgSolicitud/hombre.png'),
+('24535837N', 'López', 'María', '2003-04-04', '2DAW', '666666666', 'maria@gmail.com', 'Plaza Mayor 456', '1234', 4, NULL, NULL, NULL, NULL, NULL, '/recursos/imgSolicitud/hombre.png'),
+('48701978F', 'González', 'Luis', '2004-05-05', '2SEA', '666666666', 'luis@gmail.com', 'Calle Secundaria 567', '1234', 5, NULL, NULL, NULL, NULL, NULL, '/recursos/imgSolicitud/hombre.png'),
+('80749342E', 'Pérez', 'Laura', '2005-06-06', '2SEA', '666666666', 'laura@gmail.com', 'Calle Tercera 678', '1234', 6, '46849093W', 'Pérez', 'Carlos', '777777777', 'Calle Cuarta 789', '/recursos/imgSolicitud/mujer.png'),
+('27598239X', 'Sánchez', 'Carlos', '2006-07-07', '1SEA', '666666666', 'carlos@gmail.com', 'Calle Quinta 789', '1234', 1, '73158992V', 'Sánchez', 'Luisa', '777777777', 'Calle Sexta 890', '/recursos/imgSolicitud/mujer.png'),
+('43313335B', 'Torres', 'Elena', '2007-08-08', '2MI', '666666666', 'elena@gmail.com', 'Calle Séptima 890', '1234', 2, '71732694H', 'Torres', 'Manuel', '777777777', 'Calle Octava 901', '/recursos/imgSolicitud/mujer.png'),
+('09123445N', 'Navarro', 'Manuel', '2008-09-09', '2MI', '666666666', 'manuel@gmail.com', 'Calle Novena 901', '1234', 3, '67091510G', 'Navarro', 'Elena', '777777777', 'Calle Décima 012', '/recursos/imgSolicitud/mujer.png'),
+('51946667V', 'Ruiz', 'Sara', '2009-10-10', '2ER', '666666666', 'sara@gmail.com', 'Calle Undécima 012', '1234', 4, '37283527K', 'Ruiz', 'Juan', '777777777', 'Calle Duodécima 123', '/recursos/imgSolicitud/mujer.png');
