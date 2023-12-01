@@ -95,10 +95,9 @@ class ItemBaremableRepo
     {
         try {
             $conexion = GBD::getConexion();
-            $insert = "INSERT INTO itemBaremable (id, nombre) VALUES (:id, :nombre);";
+            $insert = "INSERT INTO itemBaremable (nombre) VALUES (:nombre);";
             $stmt = $conexion->prepare($insert);
             $params = [
-                ':id' => $itemBaremable->getId(),
                 ':nombre' => $itemBaremable->getNombre()
             ];
             $stmt->execute($params);

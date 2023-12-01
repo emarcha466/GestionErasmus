@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitud Erasmus</title>
-</head>
-<body>
-    <?php
-    
-    ?>
-</body>
-</html>
+<?php
+class Principal
+{
+    public static function main()
+    {
+        require_once 'helpers\autocargador.php'; 
+        require_once 'views/layout.php';
+    }
+}
+Principal::main();
+?>

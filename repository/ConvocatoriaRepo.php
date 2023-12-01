@@ -160,12 +160,11 @@ class ConvocatoriaRepo{
     public static function setConvocatoria($convocatoria){
         try {
             $conexion = GBD::getConexion();
-            $insert = "INSERT INTO convocatoria (id, num_movilidades, duracion, tipo, fechaIniSolicitud, fechaFinSolicitud, fechaIniPruebas, fechaFinPruebas, 
-                fechaListadoProvisional, fechaListadoDefinitivo, codigoProyecto, destino) VALUES (:id, :num_movilidades, :duracion, :tipo, :fechaIniSolicitud, 
+            $insert = "INSERT INTO convocatoria (num_movilidades, duracion, tipo, fechaIniSolicitud, fechaFinSolicitud, fechaIniPruebas, fechaFinPruebas, 
+                fechaListadoProvisional, fechaListadoDefinitivo, codigoProyecto, destino) VALUES (:num_movilidades, :duracion, :tipo, :fechaIniSolicitud, 
                 :fechaFinSolicitud, :fechaIniPruebas, :fechaFinPruebas, :fechaListadoProvisional, :fechaListadoDefinitivo, :codigoProyecto, :destino);";
             $stmt = $conexion->prepare($insert);
             $params = [
-                ':id' => $convocatoria->getId(),
                 ':num_movilidades' => $convocatoria->getNumMovilidades(),
                 ':duracion' => $convocatoria->getDuracion(),
                 ':tipo' => $convocatoria->getTipo(),
@@ -201,7 +200,7 @@ $convocatoria2 = new Convocatoria(1, 10, 150, 'Larga duración', '2023-01-01', '
 '2023-05-01', '2023-06-30', 'PROJ005', 'Destino12');
 
 $date = date('Y-m-d');
-//var_dump(ConvocatoriaRepo::setConvocatoria($convocatoria));
+var_dump(ConvocatoriaRepo::setConvocatoria($convocatoria));
 //var_dump(ConvocatoriaRepo::updateConvocatoria($convocatoria2));
 //var_dump(ConvocatoriaRepo::deleteConvocatoriaById(8));
 //var_dump(ConvocatoriaRepo::getConvocatorias());

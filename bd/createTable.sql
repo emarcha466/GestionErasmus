@@ -106,7 +106,8 @@ CREATE TABLE convocatoria_solicitud_baremacion
     idConvocatoria  int(3),
     idSolicitud     int(3),
     idItemBaremable int(3),
-    nota            int(2),
+    notaProvisional int(2),
+    notaDefinitiva  int(2),
     url             varchar(100),
     constraint convocatoria_solicitud_baremacion_pk primary key (idConvocatoria, idSolicitud, idItemBaremable),
     constraint convocatoria_solicitud_baremacion_fk_convocatoria foreign key (idConvocatoria) references convocatoria_itemBaremable (idConvocatoria),
@@ -129,6 +130,6 @@ CREATE TABLE convocatoriaBaremoIdioma
 -- tabla que almacena los administradores
 CREATE TABLE user
 (
-    usuario  varchar(20) primary key,
-    pass varchar(30)
+    usuario varchar(20) primary key,
+    pass    varchar(30)
 );

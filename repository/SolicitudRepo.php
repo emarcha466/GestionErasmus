@@ -207,13 +207,12 @@ class SolicitudRepo
     {
         try {
             $conexion = GBD::getConexion();
-            $insert = "INSERT INTO solicitud (id, dni, apellidos, nombre, fechaNac, curso, telefono, correo,
+            $insert = "INSERT INTO solicitud (dni, apellidos, nombre, fechaNac, curso, telefono, correo,
                 domicilio, pass, idConvocatoria, imagen, dniTutor, apellidosTutor, nombreTutor, telefonoTutor, domicilioTutor) 
-                VALUES (:id, :dni, :apellidos, :nombre, :fechaNac, :curso, :telefono, :correo, :domicilio, :pass, 
+                VALUES (:dni, :apellidos, :nombre, :fechaNac, :curso, :telefono, :correo, :domicilio, :pass, 
                 :idConvocatoria, :imagen, :dniTutor, :apellidosTutor, :nombreTutor, :telefonoTutor, :domicilioTutor);";
             $stmt = $conexion->prepare($insert);
             $params = [
-                ':id' => $solicitud->getId(),
                 ':dni' => $solicitud->getDni(),
                 ':apellidos' => $solicitud->getApellidos(),
                 ':nombre' => $solicitud->getNombre(),
