@@ -1,3 +1,4 @@
 <footer>
-    <p>esto es el footer</p>
+    <address>Av. Arjona, 5, 23006 Jaén</address>
+    
 </footer>

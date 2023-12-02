@@ -101,7 +101,7 @@ CREATE TABLE convocatoria_itemBaremable
 );
 
 -- tabla que almacena la nota que ha sacado el alumno en las distintas opciones baremables
-CREATE TABLE convocatoria_solicitud_baremacion
+CREATE TABLE baremacion
 (
     idConvocatoria  int(3),
     idSolicitud     int(3),
@@ -109,10 +109,10 @@ CREATE TABLE convocatoria_solicitud_baremacion
     notaProvisional int(2),
     notaDefinitiva  int(2),
     url             varchar(100),
-    constraint convocatoria_solicitud_baremacion_pk primary key (idConvocatoria, idSolicitud, idItemBaremable),
-    constraint convocatoria_solicitud_baremacion_fk_convocatoria foreign key (idConvocatoria) references convocatoria_itemBaremable (idConvocatoria),
-    constraint convocatoria_solicitud_baremacion_fk_solicitud foreign key (idSolicitud) references solicitud (id),
-    constraint convocatoria_solicitud_baremacion_fk_itemBaremable foreign key (idItemBaremable) references convocatoria_itemBaremable (idItem)
+    constraint baremacion_pk primary key (idConvocatoria, idSolicitud, idItemBaremable),
+    constraint baremacion_fk_convocatoria foreign key (idConvocatoria) references convocatoria_itemBaremable (idConvocatoria),
+    constraint baremacion_fk_solicitud foreign key (idSolicitud) references solicitud (id),
+    constraint baremacion_fk_itemBaremable foreign key (idItemBaremable) references convocatoria_itemBaremable (idItem)
 );
 
 -- tabla que establece el valor que tendrá cada nivel de idioma en la convocatoria
