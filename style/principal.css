@@ -2,6 +2,9 @@
 body{
     margin: 0;
     font-family: 'Noto Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 
@@ -30,6 +33,46 @@ header a{
     margin-right: 1em;
 }
 
+/*Footer*/
+footer{
+    background-color: #16782E;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 0.5em 0 0.5em 0;
+}
+
+footer #datos{
+    justify-self: left;
+    margin-left: 1em;
+    color: white;
+    font-size: 1.1em;
+}
+
+footer #mapa{
+    justify-self: center;
+}
+
+footer #redesFooter{
+    justify-self: right;
+    margin-right: 1em;
+    color: white;
+    font-size: 1.2em;
+}
+
+#redesFooter img{
+    width: 1.8em;
+}
+
+/*cuerpo*/
+#cuerpo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+
 /*Botones*/
 .btnCabecera{
     border-radius: 1em;
@@ -42,4 +85,25 @@ header a{
 
 .btnCabecera:hover{
     background: #c4ddca;
+}
+
+main{
+    background-color: #EDEDED;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+main#verConvocatorias div{
+    background-color: white;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+/*Listado de convocatorias activas*/
+table#listadoConvocatorias{
+    min-width: 70em;
+    text-align: center;
+}
+table#listadoConvocatorias th{
+    padding: 0.1em 1.2em 0.1em 1.2em;
 }

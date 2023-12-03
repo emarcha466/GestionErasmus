@@ -19,7 +19,6 @@
     }
     ?>
     <div id="cuerpo">
-        <p>aqui el main</p>
         <?php
         require_once './views/enruta.php';
         ?>
