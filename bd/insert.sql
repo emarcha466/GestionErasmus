@@ -46,6 +46,14 @@ VALUES
      (6, 105, 'Larga duración', '2023-09-01', '2023-10-31', '2023-11-01', '2023-12-31', '2024-01-01', '2024-02-28', 'PROJ005', 'Destino5'),
      (8, 20, 'Corta duración', '2023-12-01', '2023-12-31', '2024-01-01', '2024-01-31', '2024-02-01', '2024-02-29', 'PROJ003', 'Destino2');
 
+INSERT INTO convocatoria (num_movilidades, duracion, tipo, fechaIniSolicitud, fechaFinSolicitud, fechaIniPruebas, fechaFinPruebas, fechaListadoProvisional, fechaListadoDefinitivo, codigoProyecto, destino)
+VALUES
+     (6, 95, 'Larga duración', '2023-12-04', '2023-12-30', '2023-12-05', '2023-12-06', '2023-12-07', '2023-12-08', 'PROJ004', 'España'),
+     (6, 85, 'Corta duración', '2023-12-04', '2023-12-30', '2023-12-05', '2023-12-06', '2023-12-07', '2023-12-08', 'PROJ002', 'Francia'),
+     (6, 100, 'Larga duración', '2023-12-04', '2023-12-30', '2023-12-05', '2023-12-06', '2023-12-07', '2023-12-08', 'PROJ001', 'Alemania'),
+     (6, 80, 'Corta duración', '2023-12-04', '2023-12-30', '2023-12-05', '2023-12-06', '2023-12-07', '2023-12-08', 'PROJ005', 'Italia'),
+     (6, 105, 'Larga duración', '2023-12-04', '2023-12-30', '2023-12-05', '2023-12-06', '2023-12-07', '2023-12-08', 'PROJ001', 'Portugal');
+
 -- solicitudes
 INSERT INTO solicitud (dni, apellidos, nombre, fechaNac, curso, telefono, correo, domicilio, pass, idConvocatoria, dniTutor, apellidosTutor, nombreTutor, telefonoTutor, domicilioTutor, imagen) VALUES
 ('21460184B', 'García', 'Juan', '2000-01-01', '1DAW', '666666666', 'juan@gmail.com', 'Calle Falsa 123', '1234', 1, NULL, NULL, NULL, NULL, NULL, '/recursos/imgSolicitud/hombre.png'),

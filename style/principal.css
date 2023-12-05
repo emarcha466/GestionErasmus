@@ -18,10 +18,12 @@ header{
     align-items: center;
     padding: 1em 0;
 }
-header img{
-    width: 25em;
+header a#logoCabecera{
     justify-self: left;
     padding-left: 1em;
+}
+header img{
+    width: 25em;
 }
 header h1{
     color: white;
@@ -86,6 +88,38 @@ footer #redesFooter{
 .btnCabecera:hover{
     background: #c4ddca;
 }
+    /*Botones de cada pantalla (enviar formulario)*/
+.btnPantalla{
+    border: none;
+    border-radius: 1em;
+    background: #16782E;
+    color: white;
+    text-decoration: none;
+    padding: 0.7em;
+    font-size: 1.3em;
+    cursor: pointer;
+}
+
+.btnPantalla:hover{
+    background: #5ec475;
+}
+
+/*Boton para realizar solicitud a convocatoria activa*/
+.btnRealizarSolicitud{
+    border-radius: 1em;
+    border: none;
+    background-color: #16782E;
+    color: white;
+    font-size: 1em;
+    padding: 0.5em;
+    margin-left: 1em;
+}
+
+.btnRealizarSolicitud:hover{
+    background: #5ec475;
+}
+
+/*Configurar el aspecto general del main*/
 
 main{
     background-color: #EDEDED;
@@ -93,6 +127,7 @@ main{
     padding: 1em;
 }
 
+/*Ver convocatorias*/
 main#verConvocatorias div{
     background-color: white;
     border-radius: 1em;
@@ -107,3 +142,26 @@ table#listadoConvocatorias{
 table#listadoConvocatorias th{
     padding: 0.1em 1.2em 0.1em 1.2em;
 }
+
+
+/*Autentifica / Login*/
+
+main#autentifica form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+}
+main#autentifica form h2{
+    font-size: 1.5em;
+}
+
+main#autentifica form input{
+    border-radius: 1em;
+    border: none;
+    padding: 0.5em;
+    margin-bottom: 0.7em;
+    font-size: 1.1em;
+}
+

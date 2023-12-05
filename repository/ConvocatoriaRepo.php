@@ -200,7 +200,7 @@ $convocatoria2 = new Convocatoria(1, 10, 150, 'Larga duración', '2023-01-01', '
 '2023-05-01', '2023-06-30', 'PROJ005', 'Destino12');
 
 $date = date('Y-m-d');
-var_dump(ConvocatoriaRepo::setConvocatoria($convocatoria));
+//var_dump(ConvocatoriaRepo::setConvocatoria($convocatoria));
 //var_dump(ConvocatoriaRepo::updateConvocatoria($convocatoria2));
 //var_dump(ConvocatoriaRepo::deleteConvocatoriaById(8));
 //var_dump(ConvocatoriaRepo::getConvocatorias());
