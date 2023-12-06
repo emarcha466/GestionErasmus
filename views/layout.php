@@ -15,9 +15,7 @@
     <?php
     session_start();
     require_once './views/header.php';
-    if (isset($_SESSION['logueado']) && $_SESSION['logueado']) {
-        require_once './Vistas/nav.php';
-    }
+    require_once './views/nav.php';
     ?>
     <div id="cuerpo">
         <?php

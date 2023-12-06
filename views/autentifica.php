@@ -6,15 +6,12 @@
         $valida->Requerido('contrasena');
         //Comprobamos validacion
         if($valida->ValidacionPasada()){
-            if(Login::Identifica($_POST['usuario'],$_POST['contrasena'],false)){
-                $user = usuarioRepo::getUsuarioByNombre($_POST['usuario']);
-                if($user->getRol() == null){
-                    $_SESSION['no_rol'] = true;
-                }else{
-                    $_SESSION['usuario']['nombre'] = $user->getNombre();
+            if(login::Identifica($_POST['usuario'],$_POST['contrasena'])){
+                $user = userRepo::getUserByUsuario($_POST['usuario']);
+                    $_SESSION['usuario'] = $user->getUsuario();
                     $_SESSION['logueado'] = true;
                     header("location:?menu=inicio");
-                }
+                
             }else {
                 $_SESSION['login_error'] = true;
             }

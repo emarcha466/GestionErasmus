@@ -5,6 +5,12 @@ class session{
         $_SESSION[$sesion]=$valor;
     }
 
+    public static function deleteUserSession(){
+        unset($_SESSION['logueado']);
+        unset($_SESSION['usuario']);
+        header("location:?menu=inicio");
+    }
+
     public static function foundSession($sesion){
         return isset( $_SESSION[$sesion]);
     }
