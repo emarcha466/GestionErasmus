@@ -5,6 +5,9 @@ if (isset($_GET['menu'])) {
     }elseif ($_GET['menu'] == "login") {
         require_once './views/autentifica.php';
     }
+    elseif ($_GET['menu'] == "crearConvocatoria" && isset($_SESSION['logueado'])) {
+        require_once './views/crudConvocatoria.php';
+    }
 
 }else{
     require_once './views/verConvocatorias.php';

@@ -2,7 +2,7 @@
     <ul>
         <?php
         if(isset($_SESSION['logueado']) && $_SESSION['logueado']){
-            echo('<li><a href="">Mantenimiento Convocatorias</a></li>');
+            echo('<li><a href="?menu=crearConvocatoria">Mantenimiento Convocatorias</a></li>');
         }else{
             echo('<li><a href="?menu=inicio">Convocatorias Activas</a></li>');
             echo('<li><a href="#">Estado de Convocatoria</a></li>');

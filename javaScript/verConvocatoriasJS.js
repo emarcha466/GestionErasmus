@@ -32,7 +32,7 @@ window.addEventListener('load', function(){
                     var btn = fila.querySelector(".btnRealizarSolicitud");
 
                     nombre.innerHTML = "nombre";
-                    duracion.innerHTML = convocatoria.duracion;
+                    duracion.innerHTML = (convocatoria.duracion+" días");
                     tipo.innerHTML = convocatoria.tipo;
                     inicio.innerHTML = cambiarFormatoFecha(convocatoria.fechaIniSolicitud);
                     fin.innerHTML = cambiarFormatoFecha(convocatoria.fechaFinSolicitud);
