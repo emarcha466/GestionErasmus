@@ -1,33 +1,33 @@
-<script src="./javaScript/crudConvocatoriaJs.js"></script>
+<?php
+//si el formualario ha sido enviado
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    switch ($_POST['accion']) {
+        case "Crear nueva convocatoria":
+            $_SESSION['convocatoria']['accion'] = "crear";
+            header("location:?menu=crearConvocatoria");
+            break;
+        case "Actualizar convocatoria":
+            $_SESSION['convocatoria']['accion'] = "actualizar";
+            header("location:?menu=crearConvocatoria");
+            break;
+        case "Eliminar convocatoria":
+            $_SESSION['convocatoria']['accion'] = "eliminar";
+            header("location:?menu=crearConvocatoria");
+            break;
+        case "Listado de todas las convocatorias":
+            $_SESSION['convocatoria']['accion'] = "listado";
+            header("location:?menu=crearConvocatoria");
+            break;
+    }
+}
+?>
+
 <main id="crudConvocatoria">
-    <form action="" name="crearConvocatoria">
-        <label for="proyecto">Proyecto:</label>
-        <select name="proyecto" id="proyecto"></select>
-        <label for="id" hidden>ID:</label>
-        <input type="text" name="id" disabled hidden>
-        <label for="num_movilidades">Número de Movilidades:</label>
-        <input type="text" name="num_movilidades" id="num_movilidades">
-        <label for="duracion">Duración:</label>
-        <input type="number" name="duracion" id="duracion" min="15" value="60">
-        <label for="tipo">Tipo:</label>
-        <select name="tipo" id="tipo">
-            <option value="corta duracion">Corta Duración</option>
-            <option value="larga duracion">Larga Duración</option>
-        </select>
-        <label for="fechaIniSolicitud">Fecha Inicio de Solicitud:</label>
-        <input type="date" name="fechaIniSolicitud">
-        <label for="fechaFinSolicitud">Fecha Fin de Solicitud:</label>
-        <input type="date" name="fechaFinSolicitud">
-        <label for="fechaIniPruebas">Fecha Inicio de Pruebas:</label>
-        <input type="date" name="fechaIniPruebas">
-        <label for="fechaFinPruebas">Fecha Fin de Pruebas:</label>
-        <input type="date" name="fechaFinPruebas">
-        <label for="fechaListadoProvisional">Fecha de Listado Provisional:</label>
-        <input type="date" name="fechaListadoProvisional">
-        <label for="fechaListadoDefinitivo">Fecha de Listado Definitivo:</label>
-        <input type="date" name="fechaListadoDefinitivo">
-        <label for="destino">Destino:</label>
-        <input type="text" name="destino">
-        <input type="submit" value="Enviar" class="btnPantalla">
+    <h2>Mantenimiento de las convocatorias</h2>
+    <form method="post" action="">
+        <input type="submit" name="accion" value="Crear nueva convocatoria" class="btnPantalla">
+        <input type="submit" name="accion" value="Actualizar convocatoria" class="btnPantalla">
+        <input type="submit" name="accion" value="Eliminar convocatoria" class="btnPantalla">
+        <input type="submit" name="accion" value="Listado de todas las convocatorias" class="btnPantalla">
     </form>
 </main>

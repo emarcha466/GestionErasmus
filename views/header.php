@@ -1,5 +1,6 @@
 <header>
-    <a href="?menu=inicio" id="logoCabecera"><img src="recursos/img/fuentezuelas.png" alt=""></a>
+
+    <a href=<?php echo isset($_SESSION['usuario']) ? "?menu=inicioAdmin" : "?menu=inicio" ?> id="logoCabecera"><img src="recursos/img/fuentezuelas.png" alt=""></a>
     <h1>Gestion de becas</h1>
     <?php
     if(isset($_SESSION['usuario'])){

@@ -4,9 +4,11 @@ if (isset($_GET['menu'])) {
         require_once './views/verConvocatorias.php';
     }elseif ($_GET['menu'] == "login") {
         require_once './views/autentifica.php';
+    }elseif ($_GET['menu'] == "inicioAdmin" && isset($_SESSION['logueado'])) {
+        require_once './views/crudConvocatoria.php';
     }
     elseif ($_GET['menu'] == "crearConvocatoria" && isset($_SESSION['logueado'])) {
-        require_once './views/crudConvocatoria.php';
+        require_once './views/formularioConvocatoria.php';
     }
 
 }else{

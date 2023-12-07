@@ -10,7 +10,7 @@
                 $user = userRepo::getUserByUsuario($_POST['usuario']);
                     $_SESSION['usuario'] = $user->getUsuario();
                     $_SESSION['logueado'] = true;
-                    header("location:?menu=inicio");
+                    header("location:?menu=inicioAdmin");
                 
             }else {
                 $_SESSION['login_error'] = true;
