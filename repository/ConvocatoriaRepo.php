@@ -160,6 +160,8 @@ class ConvocatoriaRepo{
     public static function setConvocatoria($convocatoria){
         try {
             $conexion = GBD::getConexion();
+            //inicio la transaccion
+            $conexion->beginTransaction();
             $insert = "INSERT INTO convocatoria (num_movilidades, duracion, tipo, fechaIniSolicitud, fechaFinSolicitud, fechaIniPruebas, fechaFinPruebas, 
                 fechaListadoProvisional, fechaListadoDefinitivo, codigoProyecto, destino) VALUES (:num_movilidades, :duracion, :tipo, :fechaIniSolicitud, 
                 :fechaFinSolicitud, :fechaIniPruebas, :fechaFinPruebas, :fechaListadoProvisional, :fechaListadoDefinitivo, :codigoProyecto, :destino);";
@@ -178,10 +180,13 @@ class ConvocatoriaRepo{
                 ':destino' => $convocatoria->getDestino()
             ];
             $stmt->execute($params);
-            $rows = $stmt->rowCount();
-
-            return $rows;
+            $lastId = $conexion->lastInsertId();
+            //finalizo la transaccion
+            $conexion->commit();
+            return $lastId;
         } catch (PDOException $e) {
+            //revierto los cambios en caso de error
+            $conexion->rollBack();
             if ($e->errorInfo[1] == 1062) {
                 http_response_code(400);
                 echo json_encode(array("status"=>"error", "message"=>"Error al añadir la convocatoria"));
