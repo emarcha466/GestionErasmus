@@ -1,5 +1,5 @@
 window.addEventListener('load', function(){
-    tbody = this.document.getElementById("tbodyListadoConvocatorias");
+    let tbody = this.document.getElementById("tbodyListadoConvocatorias");
 
 
     actualizar();

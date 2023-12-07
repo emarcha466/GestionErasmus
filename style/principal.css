@@ -123,13 +123,14 @@ footer #redesFooter{
     /*Botones de cada pantalla (enviar formulario)*/
 .btnPantalla{
     border: none;
-    border-radius: 1em;
-    background: #16782E;
-    color: white;
-    text-decoration: none;
-    padding: 0.7em;
-    font-size: 1.3em;
-    cursor: pointer;
+    border-radius: 1em !important;
+    background: #16782E !important;
+    color: white !important;
+    text-decoration: none !important;
+    padding: 0.7em !important;
+    font-size: 1.3em !important;
+    cursor: pointer !important;
+    width: fit-content!important;
 }
 
 .btnPantalla:hover{
@@ -154,13 +155,18 @@ footer #redesFooter{
 /*Configurar el aspecto general del main*/
 
 main{
-    background-color: #EDEDED;
+    background-color: #cdcdcd;
     border-radius: 1em;
     padding: 1em;
+    margin: 2em;
 }
 
 h2{
     font-size: 1.5em;
+}
+
+input[type="date"]{
+    font-family: 'Noto Sans', sans-serif;
 }
 
 /*Ver convocatorias*/
@@ -200,8 +206,72 @@ main#autentifica form input{
 
 /*Crear convocatoria*/
 main#formularioConvocatoria{
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+main#formularioConvocatoria form{
+    margin-left: 2em;
+}
+
+
+main#formularioConvocatoria form div{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+main#formularioConvocatoria form input,
+main#formularioConvocatoria form label,
+main#formularioConvocatoria form select{
+    font-size: 1.3em;
+    align-self: center;
+}
+
+main#formularioConvocatoria form input, 
+main#formularioConvocatoria form select{
+    width: 9em;
+    border: none;
+    border-radius: 0.5em;
+    padding: 0.2em 0 0.2em 0.5em;
+    margin: 0.4em 0.5em;
+}
+
+main#formularioConvocatoria form input[name="destino"]{
+    grid-column: 2/5;
+    width: 89%;
+}
+
+main#formularioConvocatoria form input[type="submit"]{
+    grid-column: 1/5;
+    justify-self: center;
+    margin-top: 2em;
+}
+
+    /*Parte del formulario que controla los destinatarios e items baramables*/
+div#destinatariosConvo label[for="destinatarios"],
+div#itemBaremablesConvo label[for="itemBaremables"],
+div#itemBaremablesConvo table{
+    grid-column: 1/5;
+    margin: 0.4em 0;
+}
+div#destinatariosConvo input{
+    width: fit-content !important;
+}
+div#destinatariosConvo label,
+div#itemBaremablesConvo label{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+#tbItemBaremables input, #tbItemBaremables select{
+    width: 3em !important;
+}
+div#itemBaremablesConvo table th{
+    font-size: 1.2em;
+}
+
 
 /*Crud convocatorias*/
 main#crudConvocatoria form{
@@ -213,6 +283,6 @@ main#crudConvocatoria form{
 
 main#crudConvocatoria input{
     margin: 0.4em 0;
-    width: 17em;
+    width: 17em !important;
     text-align: center;
 }
