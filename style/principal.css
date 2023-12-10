@@ -134,7 +134,7 @@ footer #redesFooter{
 }
 
 .btnPantalla:hover{
-    background: #5ec475;
+    background: #5ec475 !important;
 }
 
 /*Boton para realizar solicitud a convocatoria activa*/
@@ -150,6 +150,18 @@ footer #redesFooter{
 
 .btnRealizarSolicitud:hover{
     background: #5ec475;
+}
+
+/*Mensajes de success y error*/
+.success{
+    color: green;
+    text-align: center;
+    align-self: center;
+}
+.error{
+    color: red;
+    text-align: center;
+    align-self: center;
 }
 
 /*Configurar el aspecto general del main*/

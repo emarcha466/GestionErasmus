@@ -32,7 +32,7 @@ window.addEventListener('load', function () {
                 const label = this.document.createElement('label')
                 const input = this.document.createElement('input')
                 input.type = "checkbox"
-                input.name = "destinatario"
+                input.name = "destinatario[]"
                 input.value = destinatario.codigoGrupo;
                 label.appendChild(input)
                 label.innerHTML += destinatario.codigoGrupo;
@@ -53,7 +53,7 @@ window.addEventListener('load', function () {
             })
                 .then(x => x.json())
                 .then(items => {
-                    
+
                     items.forEach(item => {
                         var fila = filaC.cloneNode(true);
                         var nombre = fila.querySelector(".nombreItem");
@@ -65,13 +65,18 @@ window.addEventListener('load', function () {
                         nombre.innerHTML = item.nombre;
                         requisito.value = "no";
                         aportaAlumno.value = "no";
+                        var hiddenInput = document.createElement("input");
+                        hiddenInput.type = "hidden";
+                        hiddenInput.name = "nombreItem[]";
+                        hiddenInput.value = item.nombre;
+                        nombre.parentNode.insertBefore(hiddenInput, nombre.nextSibling);
 
                         tbody.appendChild(fila);
 
-                        chexbox.onchange = function() {
+                        chexbox.onchange = function () {
                             //cojo los datos de la fila, menos el checkbox
                             var inputs = this.parentNode.parentNode.querySelectorAll('input:not(.checkItem), select');
-                            
+
                             //deshabilito o habilito cada casilla de la tabla
                             for (var j = 0; j < inputs.length; j++) {
                                 // Si la casilla de verificación esta marcada
@@ -88,6 +93,23 @@ window.addEventListener('load', function () {
                 })
         })
 
+    
+    //cojo los checkboxes de item baremables
+    var checkboxes = document.querySelectorAll('.checkItem');
+    for (var i = 0; i < checkboxes.length; i++) {
+        // compruebo si el checkbox de idioma esta seleccionado
+        if (checkboxes[i].value === '1') {
+            checkboxes[i].addEventListener('change', function () {
+                if (this.checked) {
+                    //TODO Añadir la tabla de puntuacion de idioma
+                } else {
+                    //TODO Borrar la tabla de puntuacion de idioma si existe
+                }
+            });
+            // Rompe el ciclo una vez que encuentres el checkbox
+            break;
+        }
+    }
 
     duracion.addEventListener('change', function () {
         if (this.value <= 90) {

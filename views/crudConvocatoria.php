@@ -24,6 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <main id="crudConvocatoria">
     <h2>Mantenimiento de las convocatorias</h2>
+    <?php
+    //muestro el mensaje si ha salido correcto el crud
+    if (isset($_SESSION['success'])) {
+        echo("<p class='success'>".$_SESSION['success']."</p>") ;
+    }
+    unset($_SESSION['success']);
+    ?>
+    
     <form method="post" action="">
         <input type="submit" name="accion" value="Crear nueva convocatoria" class="btnPantalla">
         <input type="submit" name="accion" value="Actualizar convocatoria" class="btnPantalla">

@@ -12,5 +12,10 @@ if (isset($_GET['menu'])) {
     }
 
 }else{
-    require_once './views/verConvocatorias.php';
+    if(isset($_SESSION['logueado'])){
+        require_once './views/crudConvocatoria.php';
+    }else{
+        require_once './views/verConvocatorias.php';
+    }
+    
 }
