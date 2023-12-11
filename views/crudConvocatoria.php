@@ -3,7 +3,7 @@
 //si el formualario ha sido enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     switch ($_POST['accion']) {
-        case "Crear nueva convocatoria":
+        case "Nueva Convocatoria":
             $_SESSION['convocatoria']['accion'] = "crear";
             header("location:?menu=crearConvocatoria");
             break;
@@ -29,6 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <main id="crudConvocatoria">
     <h2>Mantenimiento de las convocatorias</h2>
+    <form action="" method="post" id="btnNuevaConvocatoria">
+        <input type="submit" name="accion" value="Nueva Convocatoria" class="btnPantalla">
+    </form>
     <?php
     //muestro el mensaje si ha salido correcto el crud
     if (isset($_SESSION['success'])) {

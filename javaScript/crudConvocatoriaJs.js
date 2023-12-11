@@ -72,7 +72,7 @@ window.addEventListener('load', function () {
      */
     function cambiarFormatoFecha(fecha) {
         let partes = fecha.split('-');
-        let año = partes[0].slice(-2); // Obtiene los últimos dos dígitos del año
+        let año = partes[0];
         let mes = partes[1];
         let dia = partes[2];
 

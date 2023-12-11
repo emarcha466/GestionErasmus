@@ -29,7 +29,7 @@ window.addEventListener('load', function(){
                     var fin = fila.querySelector(".finSolicitudes");
                     var destino = fila.querySelector(".destinoConvocatoria");
                     var btn = fila.querySelector(".btnRealizarSolicitud");
-                    
+
                     duracion.innerHTML = (convocatoria.duracion+" días");
                     tipo.innerHTML = convocatoria.tipo;
                     inicio.innerHTML = cambiarFormatoFecha(convocatoria.fechaIniSolicitud);
@@ -69,7 +69,7 @@ window.addEventListener('load', function(){
      */
     function cambiarFormatoFecha(fecha) {
         let partes = fecha.split('-');
-        let año = partes[0].slice(-2); // Obtiene los últimos dos dígitos del año
+        let año = partes[0]
         let mes = partes[1];
         let dia = partes[2];
     
