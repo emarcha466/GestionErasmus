@@ -29,14 +29,11 @@
         <div>
         <?php
             if(isset($_SESSION['login_error']) && $_SESSION['login_error']) {
-                echo("<p>Usuario o contraseña incorrectos</p>");
+                echo("<p class='error'>Usuario o contraseña incorrectos</p>");
                 unset($_SESSION['login_error']);
             }elseif (isset($_SESSION['campos_vacios']) && $_SESSION['campos_vacios']) {
-                echo("<p>Debe rellenar ambos</p>");
+                echo("<p class='error'>Debe rellenar ambos</p>");
                 unset($_SESSION['campos_vacios']);
-            }elseif (isset($_SESSION['no_rol']) && $_SESSION['no_rol']) {
-                echo("<p>El usuario se encuentra en revisión</p>");
-                unset($_SESSION['no_rol']);
             }
             ?>
         </div>

@@ -1,6 +1,5 @@
 window.addEventListener('load', function () {
     let tbody = this.document.getElementById("tbodyListadoConvocatorias");
-    var mensajes = document.querySelectorAll('p.error, p.success');
 
     actualizar();
 
@@ -21,8 +20,7 @@ window.addEventListener('load', function () {
 
                         convocatorias.forEach(convocatoria => {
                             var fila = filaC.cloneNode(true);
-                            console.log(fila)
-
+                            
                             var id = fila.querySelector(".idConvocatoria");
                             var proyecto = fila.querySelector(".proyectoConvocatoria");
                             var duracion = fila.querySelector(".duracionConvocatoria");
@@ -57,12 +55,6 @@ window.addEventListener('load', function () {
             })
     }
 
-    //funcion que elimina los mensajes del formulario
-    mensajes.forEach(mensaje=>{
-        setTimeout(function() {
-            mensaje.remove();
-        }, 2000);
-    })
 
     /**
      * Funcion que cambia la fecha de formato yyyy-mm-dd a dd-mm-yyyy

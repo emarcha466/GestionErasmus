@@ -323,28 +323,46 @@ main#crudConvocatoria input{
 }
 
 /*Login estado Convocatoria*/
-main#estadoConvocatoriaLogin{
+main#estadoSolicitudLogin{
     display: flex;
     flex-direction: column;
     align-items: center;
 
 }
-main#estadoConvocatoriaLogin label{
+main#estadoSolicitudLogin h2{
+   margin-bottom: 1.5em;
+}
+main#estadoSolicitudLogin label{
     font-size: 1.2em;
 }
-main#estadoConvocatoriaLogin input{
+main#estadoSolicitudLogin input{
     padding: 0.5em;
     border: none;
     border-radius: 1em;
     margin-bottom: 1em;
     font-size: 1.1em;
 }
-main#estadoConvocatoriaLogin form{
+main#estadoSolicitudLogin form{
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
-main#estadoConvocatoriaLogin form input[type="submit"]{
+main#estadoSolicitudLogin form input[type="submit"]{
     margin-top: 1em;
     grid-column: 1/3;
     justify-self: center;
+}
+
+/*revision solicitudes*/
+main#revisionSolicitudes div{
+    background-color: white;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+main#revisionSolicitudes table {
+    text-align: center;
+ }
+
+main#revisionSolicitudes table th{
+   padding:0 1em 1em 1em;
 }

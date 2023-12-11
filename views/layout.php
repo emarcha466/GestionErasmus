@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href=".\recursos\img\fuentezuelasLogo.ico" type="image/x-icon">
     <link rel="stylesheet" href="\GestionErasmus\style\principal.css">
     <link rel="shortcut icon" href="./img/logoSF.png" type="image/x-icon">
+    <script src="./javaScript/eliminarMensajesJS.js"></script>
 </head>
 
 <body>
