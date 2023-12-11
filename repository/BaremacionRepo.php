@@ -99,7 +99,7 @@ class BaremacionRepo
      * @param int $idItemBaremable idItemBaremable de la baremacion a borrar
      * @return int 1 si lo borra, 0 si no lo borra
      */
-    public static function deleteBaremacionById($idConvocatoria, $idSolicitud, $idItemBaremable)
+    public static function deleteBaremacion($idConvocatoria, $idSolicitud, $idItemBaremable)
     {
         $conexion = GBD::getConexion();
         $delete = "DELETE FROM baremacion WHERE idConvocatoria = :idConvocatoria AND idSolicitud = :idSolicitud AND idItemBaremable = :idItemBaremable;";
@@ -111,6 +111,8 @@ class BaremacionRepo
         $rows = $stmt->rowCount();
         return $rows;
     }
+
+
 
     /**
      * Función que elimina una baremacion por su idConvocatoria y idSolicitud
@@ -130,6 +132,24 @@ class BaremacionRepo
         $rows = $stmt->rowCount();
         return $rows;
     }
+
+    /**
+     * Función que elimina una baremacion por su idConvocatoria
+     * 
+     * @param int $idConvocatoria idConvocatoria de la baremacion a borrar
+     * @return int 1 si lo borra, 0 si no lo borra
+     */
+    public static function deleteBaremacionById($idConvocatoria)
+    {
+        $conexion = GBD::getConexion();
+        $delete = "DELETE FROM baremacion WHERE idConvocatoria = :idConvocatoria;";
+        $stmt = $conexion->prepare($delete);
+        $stmt->bindParam(':idConvocatoria', $idConvocatoria);
+        $stmt->execute();
+        $rows = $stmt->rowCount();
+        return $rows;
+    }
+
 
     /**
      * Función que actualiza una baremacion con los parámetros de la baremacion pasado como parámetro

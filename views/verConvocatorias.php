@@ -5,7 +5,6 @@
         <table id="listadoConvocatorias">
             <thead>
                 <tr>
-                    <th>Nombre</th>
                     <th>Duración</th>
                     <th>Tipo</th>
                     <th>Inicio Solicitudes</th>

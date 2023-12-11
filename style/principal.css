@@ -164,6 +164,10 @@ footer #redesFooter{
     align-self: center;
 }
 
+.hiddenColumn {
+    display: none;
+  }
+
 /*Configurar el aspecto general del main*/
 
 main{
@@ -287,14 +291,15 @@ div#itemBaremablesConvo table th{
 
 /*Crud convocatorias*/
 main#crudConvocatoria form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    padding-left: 1em;
 }
 
 main#crudConvocatoria input{
-    margin: 0.4em 0;
-    width: 17em !important;
+    margin: 0.4em 0.2em;
+    width: 7em;
     text-align: center;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 1em;
+    padding: 0.5em 0.2em;
 }

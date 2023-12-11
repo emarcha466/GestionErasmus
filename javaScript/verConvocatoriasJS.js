@@ -23,15 +23,13 @@ window.addEventListener('load', function(){
                 convocatorias.forEach(convocatoria => {
                     var fila = filaC.cloneNode(true);
 
-                    var nombre = fila.querySelector(".nombreConvocatoria");
                     var duracion = fila.querySelector(".duracionConvocatoria");
                     var tipo = fila.querySelector(".tipoConvocatoria");
                     var inicio = fila.querySelector(".inicioSolicitues");
                     var fin = fila.querySelector(".finSolicitudes");
                     var destino = fila.querySelector(".destinoConvocatoria");
                     var btn = fila.querySelector(".btnRealizarSolicitud");
-
-                    nombre.innerHTML = "nombre";
+                    
                     duracion.innerHTML = (convocatoria.duracion+" días");
                     tipo.innerHTML = convocatoria.tipo;
                     inicio.innerHTML = cambiarFormatoFecha(convocatoria.fechaIniSolicitud);

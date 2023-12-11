@@ -159,6 +159,23 @@ class SolicitudRepo
     }
 
     /**
+     * Función que elimina las solicitudes relacionadas con una convocatoria por su ID de convocatoria
+     * 
+     * @param int $idConvocatoria ID de la convocatoria
+     * @return int Número de filas afectadas
+     */
+    public static function deleteSolicitudesByIdConvocatoria($idConvocatoria)
+    {
+        $conexion = GBD::getConexion();
+        $delete = "DELETE FROM solicitud WHERE idConvocatoria = :idConvocatoria;";
+        $stmt = $conexion->prepare($delete);
+        $stmt->bindParam(':idConvocatoria', $idConvocatoria);
+        $stmt->execute();
+        $rows = $stmt->rowCount();
+        return $rows;
+    }
+
+    /**
      * Funicion que actualiza una solicitud con los parámetros de la solicitud pasada como parámetro
      * 
      * @param solicitud $solicitud Solicitud a actualizar

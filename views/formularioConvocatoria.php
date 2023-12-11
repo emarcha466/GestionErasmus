@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         }
                     }
                     $rows = ConvocatoriaItemBaremableRepo::setItemsBaremablesParaConvocatoria($idConvocatoria, $itemsBaremables);
-                    if ($rows != $itemsBaremables) {
+                    if ($rows != count($itemsBaremables)) {
                         $correcto = false;
                     }
                 } else {

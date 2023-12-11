@@ -1,3 +1,4 @@
+<script src="./javaScript/crudConvocatoriaJs.js"></script>
 <?php
 //si el formualario ha sido enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -6,13 +7,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['convocatoria']['accion'] = "crear";
             header("location:?menu=crearConvocatoria");
             break;
-        case "Actualizar convocatoria":
+        case "Modificar":
             $_SESSION['convocatoria']['accion'] = "actualizar";
             header("location:?menu=crearConvocatoria");
             break;
-        case "Eliminar convocatoria":
-            $_SESSION['convocatoria']['accion'] = "eliminar";
-            header("location:?menu=crearConvocatoria");
+        case "Eliminar":
+            $row = ConvocatoriaRepo::deleteConvocatoriaById($_POST['idConvocatoria']);
+            if ($row > 0) {
+                $_SESSION['success'] = "Convocatoria eliminada correctamente";
+            } else {
+                $_SESSION['error'] = "No se ha podido eliminar la convocatoria";
+            }
             break;
         case "Listado de todas las convocatorias":
             $_SESSION['convocatoria']['accion'] = "listado";
@@ -27,15 +32,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php
     //muestro el mensaje si ha salido correcto el crud
     if (isset($_SESSION['success'])) {
-        echo("<p class='success'>".$_SESSION['success']."</p>") ;
+        echo ("<p class='success'>" . $_SESSION['success'] . "</p>");
+    }elseif(isset($_SESSION['error'])){
+        echo ("<p class='error'>" . $_SESSION['error'] . "</p>");
     }
     unset($_SESSION['success']);
-    ?>
+    unset($_SESSION['error']);
     
-    <form method="post" action="">
-        <input type="submit" name="accion" value="Crear nueva convocatoria" class="btnPantalla">
-        <input type="submit" name="accion" value="Actualizar convocatoria" class="btnPantalla">
-        <input type="submit" name="accion" value="Eliminar convocatoria" class="btnPantalla">
-        <input type="submit" name="accion" value="Listado de todas las convocatorias" class="btnPantalla">
-    </form>
+    ?>
+    <div id="listadoConvocatoriasActivas">
+        <table id="listadoConvocatorias">
+            <thead>
+                <tr>
+                    <th hidden>id</th>
+                    <th>Proyecto</th>
+                    <th>Movilidades</th>
+                    <th>Duración</th>
+                    <th>Tipo</th>
+                    <th>Inicio Solicitudes</th>
+                    <th>Fin Solicitudes</th>
+                    <th>Inicio Pruebas</th>
+                    <th>Fin Pruebas</th>
+                    <th>Listado Provisional</th>
+                    <th>Listado Definitivo</th>
+                    <th>Destinos</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbodyListadoConvocatorias">
+            </tbody>
+        </table>
+    </div>
 </main>
