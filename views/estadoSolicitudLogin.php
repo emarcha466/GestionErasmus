@@ -1,3 +1,4 @@
+<script src="./javaScript/estadoSolicitudJS.js"></script>
 <?php
 $valida = new Validacion();
 if (isset($_POST['consultaEstado'])) {
@@ -35,6 +36,6 @@ if (isset($_POST['consultaEstado'])) {
         <input type="text" name="dni" id="dni">
         <label for="contrasena">Contraseña:</label>
         <input type="text" name="contrasena" id="contrasena">
-        <input type="submit" value="Consultar estado" name="consultaEstado" class="btnPantalla">
+        <input type="submit" value="Consultar estado" name="consultaEstado" class="btnPantalla" id="btnConsultar">
     </form>
 </main>
