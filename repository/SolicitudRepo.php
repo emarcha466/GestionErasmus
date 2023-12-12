@@ -224,6 +224,8 @@ class SolicitudRepo
     {
         try {
             $conexion = GBD::getConexion();
+            //inicio de la transaccion
+            $conexion ->beginTransaction();
             $insert = "INSERT INTO solicitud (dni, apellidos, nombre, fechaNac, curso, telefono, correo,
                 domicilio, pass, idConvocatoria, imagen, dniTutor, apellidosTutor, nombreTutor, telefonoTutor, domicilioTutor) 
                 VALUES (:dni, :apellidos, :nombre, :fechaNac, :curso, :telefono, :correo, :domicilio, :pass, 
@@ -248,10 +250,13 @@ class SolicitudRepo
                 ':domicilioTutor' => $solicitud->getDomicilioTutor()
             ];
             $stmt->execute($params);
-            $rows = $stmt->rowCount();
+            $lastId = $conexion ->lastInsertId();
+            //fin de la transaccion
+            $conexion ->commit();
 
-            return $rows;
+            return $lastId;
         } catch (PDOException $e) {
+            $conexion->rollBack();
             if ($e->errorInfo[1] == 1062) {
                 http_response_code(400);
                 echo json_encode(array("status" => "error", "message" => "Error al añadir la solicitud"));

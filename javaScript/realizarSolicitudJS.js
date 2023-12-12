@@ -1,6 +1,7 @@
 window.addEventListener('load', function () {
     let idConvo = this.localStorage.getItem("idConvo")
     let fechaNac = this.document.getElementById("fechaNac")
+    
 
     fechaNac.addEventListener('change', function () {
         var fechaNacimiento = new Date(this.value);
