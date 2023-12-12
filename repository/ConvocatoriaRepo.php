@@ -128,6 +128,9 @@ class ConvocatoriaRepo
             //Elimino destinatarios de la convocatoria
             ConvocatoriaDestinatarioRepo::deleteDestinatariosByConvocatoriaId($id);
 
+            //Elimino baremacionIdioma de la convocatoria
+            ConvocatoriaBaremoIdiomaRepo::deleteConvocatoriaBaremoIdiomaByIdConvocatoria($id);
+
             //Elimino la convocatoria
             $delete = "DELETE FROM convocatoria WHERE id = :id";
             $stmt = $conexion->prepare($delete);

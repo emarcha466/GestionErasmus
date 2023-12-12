@@ -3,7 +3,7 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $valida = true;
     $correcto = true;
-    if($valida){
+    if ($valida) {
         switch ($_POST['accion']) {
             case "Crear Convocatoria":
                 //regojo los datos principales de la convocatoria
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $fechaListadoProvisional = $_POST['fechaListadoProvisional'];
                 $fechaListadoDefinitivo = $_POST['fechaListadoDefinitivo'];
                 $destino = $_POST['destino'];
-    
+
                 $convocatoria = new Convocatoria(
                     null,
                     $num_movilidades,
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $proyecto,
                     $destino
                 );
-    
+
                 $idConvocatoria = ConvocatoriaRepo::setConvocatoria($convocatoria);
                 //si se ha creado correctamente la convocatoria (devuelve el id de la convocatorias)
                 //creo los itembaremables y los destinatarios
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $valorMin = $_POST['valorMin'];
                         $aportaAlumnoItem = $_POST['aportaAlumnoItem'];
                         $itemsBaremables = array();
-    
+
                         for ($i = 0; $i < count($itemBaremable); $i++) {
                             //creo el objeto de la fila con checkbox
                             if (isset($itemBaremable[$i])) {
@@ -65,16 +65,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     } else {
                         //todo mensaje de error
                     }
-    
+
                     //destinatarios
                     if (!empty($_POST['destinatario'])) {
                         //recojo en un array los id de los destinatarios
                         $idDestinatarios = $_POST['destinatario'];
-    
+
                         $rows = ConvocatoriaDestinatarioRepo::setDestinatariosParaConvocatoria($idConvocatoria, $idDestinatarios);
                         if ($rows != count($idDestinatarios)) {
                             $correcto = false;
                         }
+                    }
+
+                    if (isset($_POST['idNivelIdioma']) && isset($_POST['notaIdioma'])) {
+                        $idNivelIdiomas = $_POST['idNivelIdioma'];
+                        $notasIdioma = $_POST['notaIdioma'];
+
+                        // Asegúrate de que ambos arrays tienen la misma longitud
+                        if (count($idNivelIdiomas) == count($notasIdioma)) {
+                            $convocatoriaBaremoIdiomas = array();
+
+                            for ($i = 0; $i < count($idNivelIdiomas); $i++) {
+                                // Crea un nuevo objeto ConvocatoriaBaremoIdioma y añádelo al array
+                                $convocatoriaBaremoIdiomas[] = new ConvocatoriaBaremoIdioma($idNivelIdiomas[$i], $idConvocatoria, $notasIdioma[$i]);
+                            }
+
+                            // Llama a la función para insertar los datos en la base de datos
+                            $rows = ConvocatoriaBaremoIdiomaRepo::setConvocatoriaBaremoIdioma($convocatoriaBaremoIdiomas);
+                        } else {
+                            $correcto = false;
+                        }
+                    } else {
+                        echo "No se proporcionaron idNivelIdioma y/o notaIdioma.";
                     }
                 }
                 if ($correcto) {
@@ -82,47 +104,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     header("Location: ?menu=inicioAdmin");
                     exit;
                 }
-    
+
                 break;
             case "Actualizar convocatoria":
                 //todo recoger los datos del formulario y actualizar la convocatoria
                 break;
         }
     }
-    
 }
 ?>
 <script src="./javaScript/formularioConvocatoriaJs.js"></script>
 <main id="formularioConvocatoria">
     <h2>Manteniminento de Convocatorias</h2>
     <form method="post" action="" name="crearConvocatoria">
+
         <div id="datosGeneralesConvo">
             <label for="proyecto">Proyecto:</label>
             <select name="proyecto" id="proyecto"></select>
-            <input type="text" name="id" disabled hidden>
+            <input type="text" name="id" value="<?php echo isset($_SESSION['convocatoria']) ? $_SESSION['convocatoria']->getId() : ''; ?>" disabled hidden>
             <label for="num_movilidades">Número de Movilidades:</label>
-            <input type="number" name="num_movilidades" id="num_movilidades" min="6" value="6">
+            <input type="number" name="num_movilidades" id="num_movilidades" min="6" value="<?php echo isset($_SESSION['convocatoria']) ? $_SESSION['convocatoria']->getNumMovilidades() : '6'; ?>">
             <label for="duracion">Duración:</label>
-            <input type="number" name="duracion" id="duracion" min="15" value="60">
+            <input type="number" name="duracion" id="duracion" min="15" value="<?php echo isset($_SESSION['convocatoria']) ? $_SESSION['convocatoria']->getDuracion() : '60'; ?>">
             <label for="tipo">Tipo:</label>
             <select name="tipo" id="tipo">
-                <option value="corta duracion">Corta Duración</option>
-                <option value="larga duracion">Larga Duración</option>
+                <option value="corta duracion" <?php echo isset($_SESSION['convocatoria']) && $_SESSION['convocatoria']->getTipo() == 'corta duracion' ? 'selected' : ''; ?>>Corta Duración</option>
+                <option value="larga duracion" <?php echo isset($_SESSION['convocatoria']) && $_SESSION['convocatoria']->getTipo() == 'larga duracion' ? 'selected' : ''; ?>>Larga Duración</option>
             </select>
             <label for="fechaIniSolicitud">Fecha Inicio de Solicitud:</label>
-            <input type="date" name="fechaIniSolicitud" id="fechaIniSolicitud">
+            <input type="date" name="fechaIniSolicitud" id="fechaIniSolicitud" value="<?php echo isset($_SESSION['convocatoria']) ? $_SESSION['convocatoria']->getFechaIniSolicitud() : ''; ?>">
             <label for="fechaFinSolicitud">Fecha Fin de Solicitud:</label>
-            <input type="date" name="fechaFinSolicitud" id="fechaFinSolicitud">
+            <input type="date" name="fechaFinSolicitud" id="fechaFinSolicitud" value="<?php echo isset($_SESSION['convocatoria']) ? $_SESSION['convocatoria']->getFechaFinSolicitud() : ''; ?>">
             <label for="fechaIniPruebas">Fecha Inicio de Pruebas:</label>
-            <input type="date" name="fechaIniPruebas" id="fechaIniPruebas">
+            <input type="date" name="fechaIniPruebas" id="fechaIniPruebas" value="<?php echo isset($_SESSION['convocatoria']) ? $_SESSION['convocatoria']->getFechaIniPruebas() : ''; ?>">
             <label for="fechaFinPruebas">Fecha Fin de Pruebas:</label>
-            <input type="date" name="fechaFinPruebas" id="fechaFinPruebas">
+            <input type="date" name="fechaFinPruebas" id="fechaFinPruebas" value="<?php echo isset($_SESSION['convocatoria']) ? $_SESSION['convocatoria']->getFechaFinPruebas() : ''; ?>">
             <label for="fechaListadoProvisional">Fecha de Listado Provisional:</label>
-            <input type="date" name="fechaListadoProvisional" id="fechaListadoProvisional">
+            <input type="date" name="fechaListadoProvisional" id="fechaListadoProvisional" value="<?php echo isset($_SESSION['convocatoria']) ? $_SESSION['convocatoria']->getFechaListadoProvisional() : ''; ?>">
             <label for="fechaListadoDefinitivo">Fecha de Listado Definitivo:</label>
-            <input type="date" name="fechaListadoDefinitivo" id="fechaListadoDefinitivo">
+            <input type="date" name="fechaListadoDefinitivo" id="fechaListadoDefinitivo" value="<?php echo isset($_SESSION['convocatoria']) ? $_SESSION['convocatoria']->getFechaListadoDefinitivo() : ''; ?>">
             <label for="destino">Destino:</label>
-            <input type="text" name="destino" id="destino">
+            <input type="text" name="destino" id="destino" value="<?php echo isset($_SESSION['convocatoria']) ? $_SESSION['convocatoria']->getDestino() : ''; ?>">
 
         </div>
         <div id="destinatariosConvo">
@@ -131,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div id="itemBaremablesConvo">
             <label for="itemBaremables">Items Baremables:</label>
-            <table>
+            <table id="tableItemBaremable">
                 <thead>
                     <tr>
                         <th>Seleccionado</th>
@@ -158,9 +180,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </table>
             </div>
             <?php
-            if (isset($_SESSION['convocatoria']['accion']) && $_SESSION['convocatoria']['accion'] == "crear") {
+            if (isset($_SESSION['accion']) && $_SESSION['accion'] == "crear") {
                 echo ('<input type="submit" value="Crear Convocatoria" name="accion" class="btnPantalla">');
-            } elseif (isset($_SESSION['convocatoria']['accion']) && $_SESSION['convocatoria']['accion'] == "actualizar") {
+            } elseif (isset($_SESSION['accion']) && $_SESSION['accion'] == "actualizar") {
                 echo ('<input type="submit" value="Actualizar Convocatoria" name="accion" class="btnPantalla">');
             }
             ?>

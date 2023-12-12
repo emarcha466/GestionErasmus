@@ -267,7 +267,8 @@ main#formularioConvocatoria form input[type="submit"]{
     /*Parte del formulario que controla los destinatarios e items baramables*/
 div#destinatariosConvo label[for="destinatarios"],
 div#itemBaremablesConvo label[for="itemBaremables"],
-div#itemBaremablesConvo table,
+label[for="puntosIdioma"],
+div#itemBaremablesConvo table#tableItemBaremable,
 #puntuacionIdioma{
     grid-column: 1/5;
     margin: 0.4em 0;
@@ -275,12 +276,20 @@ div#itemBaremablesConvo table,
 
 #puntosIdioma{
     grid-column: 2/4;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+    width: 4em;
 }
+
+#puntosIdioma input{
+    width: 2em !important;
+}
+
 div#destinatariosConvo input{
     width: fit-content !important;
 }
-div#destinatariosConvo label,
-div#itemBaremablesConvo label{
+div#destinatariosConvo label{
     display: flex;
     flex-direction: row;
     justify-content: left;

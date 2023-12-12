@@ -111,26 +111,28 @@ class ConvocatoriaBaremoIdiomaRepo
     }
 
     /**
-     * Inserta un nuevo ConvocatoriaBaremoIdioma en la base de datos.
+     * Inserta nuevos ConvocatoriaBaremoIdioma en la base de datos.
      *
-     * @param ConvocatoriaBaremoIdioma $convocatoriaBaremoIdioma Un objeto ConvocatoriaBaremoIdioma.
-     * @return int Devuelve 1 si el ConvocatoriaBaremoIdioma se ha insertado correctamente, 0 en caso contrario.
+     * @param array $convocatoriaBaremoIdiomas Un array de objetos ConvocatoriaBaremoIdioma.
+     * @return int Devuelve el número de ConvocatoriaBaremoIdioma que se han insertado correctamente.
      */
-    public static function setConvocatoriaBaremoIdioma($convocatoriaBaremoIdioma)
+    public static function setConvocatoriaBaremoIdioma($convocatoriaBaremoIdiomas)
     {
+        $rows = 0;
         try {
             $conexion = GBD::getConexion();
             $insert = "INSERT INTO convocatoriaBaremoIdioma (idIdioma, idConvocatoria, puntos) VALUES (:idIdioma, :idConvocatoria, :puntos);";
             $stmt = $conexion->prepare($insert);
-            $params = [
-                ':idIdioma' => $convocatoriaBaremoIdioma->getIdIdioma(),
-                ':idConvocatoria' => $convocatoriaBaremoIdioma->getIdConvocatoria(),
-                ':puntos' => $convocatoriaBaremoIdioma->getPuntos()
-            ];
-            $stmt->execute($params);
-            $rows = $stmt->rowCount();
 
-            return $rows;
+            foreach ($convocatoriaBaremoIdiomas as $convocatoriaBaremoIdioma) {
+                $params = [
+                    ':idIdioma' => $convocatoriaBaremoIdioma->getIdIdioma(),
+                    ':idConvocatoria' => $convocatoriaBaremoIdioma->getIdConvocatoria(),
+                    ':puntos' => $convocatoriaBaremoIdioma->getPuntos()
+                ];
+                $stmt->execute($params);
+                $rows += $stmt->rowCount();
+            }
         } catch (PDOException $e) {
             if ($e->errorInfo[1] == 1062) {
                 http_response_code(400);
@@ -140,5 +142,6 @@ class ConvocatoriaBaremoIdiomaRepo
                 echo json_encode(array("status" => "error", "message" => $e->getMessage()));
             }
         }
+        return $rows;
     }
 }

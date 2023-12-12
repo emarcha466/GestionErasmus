@@ -9,6 +9,9 @@ window.addEventListener('load', function () {
     let divNotaIdioma = this.document.getElementById("puntuacionIdioma")
     let tbodyIdioma = document.getElementById("tbodyPuntosIdioma")
 
+    //recogo el id en el localStorage para rellenar los datos en el caso de actualizacion
+    let idConvocatoria = localStorage.getItem('idConvocatoria');
+
     //rellenar el select de proyecto
     fetch("./api/ProyectoApi.php", {
         method: 'GET'
@@ -30,16 +33,43 @@ window.addEventListener('load', function () {
     })
         .then(x => x.json())
         .then(destinatarios => {
-            destinatarios.forEach(destinatario => {
-                const label = this.document.createElement('label')
-                const input = this.document.createElement('input')
-                input.type = "checkbox"
-                input.name = "destinatario[]"
-                input.value = destinatario.codigoGrupo;
-                label.appendChild(input)
-                label.innerHTML += destinatario.codigoGrupo;
-                destinatariosDiv.append(label)
-            })
+            if (idConvocatoria) {
+                this.fetch("./api/ConvocatoriaDestinatarioApi.php/?idConvocatoria=" + idConvocatoria, {
+                    method: 'GET'
+                })
+                    .then(x => x.json())
+                    .then(destinatariosConvo => {
+                        let codigosGrupoConvo = destinatariosConvo.map(destinatario => destinatario.codigoGrupo);
+                        console.log(codigosGrupoConvo);
+                        destinatarios.forEach(destinatario => {
+                            const label = this.document.createElement('label')
+                            const input = this.document.createElement('input')
+                            input.type = "checkbox"
+                            input.name = "destinatario[]"
+                            input.value = destinatario.codigoGrupo;
+                            // Si el destinatario está en la lista de destinatarios de la convocatoria lo marco
+                            if (codigosGrupoConvo.includes(destinatario.codigoGrupo)) {
+                                console.log(true)
+                                input.checked = true;
+                            }
+
+                            label.appendChild(input)
+                            label.innerHTML += destinatario.codigoGrupo;
+                            destinatariosDiv.append(label)
+                        })
+                    })
+            } else {
+                destinatarios.forEach(destinatario => {
+                    const label = this.document.createElement('label')
+                    const input = this.document.createElement('input')
+                    input.type = "checkbox"
+                    input.name = "destinatario[]"
+                    input.value = destinatario.codigoGrupo;
+                    label.appendChild(input)
+                    label.innerHTML += destinatario.codigoGrupo;
+                    destinatariosDiv.append(label)
+                })
+            }
         })
 
     //rellenar los itemsBaremables
@@ -64,8 +94,8 @@ window.addEventListener('load', function () {
                         var requisito = fila.querySelector(".requsitoItem")
 
                         chexbox.value = item.id;
-                        if(chexbox.value ==1){
-                            chexbox.addEventListener('change',function(event){
+                        if (chexbox.value == 1) {
+                            chexbox.addEventListener('change', function (event) {
                                 mostrarNotaIdioma(event.target.checked)
                             })
                         }
@@ -109,42 +139,42 @@ window.addEventListener('load', function () {
         }
     })
 
-    function mostrarNotaIdioma(activo){
+    function mostrarNotaIdioma(activo) {
         console.log(activo)
-        if(activo){
-            divNotaIdioma.style.display=""
+        if (activo) {
+            divNotaIdioma.style.display = ""
             tablaNotaIdioma()
-        }else{
-            divNotaIdioma.style.display="none"
+        } else {
+            divNotaIdioma.style.display = "none"
             tbodyIdioma.replaceChildren()
         }
     }
 
-    function tablaNotaIdioma(){
-        
+    function tablaNotaIdioma() {
+
         fetch("./views/plantillas/listadoConvocatoriaBaremoIdioma.html")
-        .then(x => x.text())
-        .then(tr => {
-            tbodyAux = document.createElement("tbody");
-            tbodyAux.innerHTML = tr;
-            var filaC = tbodyAux.children[0];
+            .then(x => x.text())
+            .then(tr => {
+                tbodyAux = document.createElement("tbody");
+                tbodyAux.innerHTML = tr;
+                var filaC = tbodyAux.children[0];
 
-            this.fetch("./api/NivelIdiomaApi.php", {
-                method: 'GET'
-            })
-                .then(x => x.json())
-                .then(items => {
-
-                    items.forEach(item => {
-                        var fila = filaC.cloneNode(true);
-                        let idIdioma = fila.querySelector(".idNivelIdioma");
-                        var nombreIdioma = fila.querySelector(".nombreIdioma");
-
-                        idIdioma.value = item.id;
-                        nombreIdioma.innerHTML = item.nombre;
-                        tbodyIdioma.appendChild(fila);
-                    })
+                this.fetch("./api/NivelIdiomaApi.php", {
+                    method: 'GET'
                 })
-        })
+                    .then(x => x.json())
+                    .then(items => {
+
+                        items.forEach(item => {
+                            var fila = filaC.cloneNode(true);
+                            let idIdioma = fila.querySelector(".idNivelIdioma");
+                            var nombreIdioma = fila.querySelector(".nombreIdioma");
+
+                            idIdioma.value = item.id;
+                            nombreIdioma.innerHTML = item.nombre;
+                            tbodyIdioma.appendChild(fila);
+                        })
+                    })
+            })
     }
 })
