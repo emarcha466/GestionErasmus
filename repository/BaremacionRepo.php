@@ -210,4 +210,38 @@ class BaremacionRepo
             }
         }
     }
+
+    /**
+     * Funcion que inserta los ItemBaremables a la baremacion de una solicitud
+     * 
+     * @param int $idConvocatoria Id de la convocatoria
+     * @param int $idSolicitud Id de la solicitd
+     * @return true si lo hace correctamente
+     */
+    public static function setItemBaremablesBaremacion($convocatoria_id, $solicitud_id) {
+        try {
+            $conexion = GBD::getConexion();
+            // Preparar la consulta para obtener los items de la convocatoria
+            $stmt = $conexion->prepare("SELECT idItem FROM convocatoria_itemBaremable WHERE idConvocatoria = :convocatoria_id");
+            $stmt->bindParam(':convocatoria_id', $convocatoria_id);
+            $stmt->execute();
+            
+            // Recorrer todos los items
+            while ($ids = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $item_id = $ids['idItem'];
+    
+                // Preparar la consulta para insertar en la tabla baremacion
+                $stmt2 = $conexion->prepare("INSERT INTO baremacion (idConvocatoria, idSolicitud, idItemBaremable, notaProvisional, notaDefinitiva, url) VALUES (:convocatoria_id, :solicitud_id, :item_id, NULL, NULL, NULL)");
+                $stmt2->bindParam(':convocatoria_id', $convocatoria_id);
+                $stmt2->bindParam(':solicitud_id', $solicitud_id);
+                $stmt2->bindParam(':item_id', $item_id);
+                $stmt2->execute();
+            }
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+
 }

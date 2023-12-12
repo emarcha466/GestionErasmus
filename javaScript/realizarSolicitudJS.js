@@ -1,7 +1,9 @@
 window.addEventListener('load', function () {
     let idConvo = this.localStorage.getItem("idConvo")
     let fechaNac = this.document.getElementById("fechaNac")
-    
+    let btnSolicitud = this.document.getElementById("btnSolicitud")
+    let formSolicitud = this.document.getElementById("formSolicitud")
+
 
     fechaNac.addEventListener('change', function () {
         var fechaNacimiento = new Date(this.value);
@@ -12,7 +14,36 @@ window.addEventListener('load', function () {
         }
     })
 
+    btnSolicitud.addEventListener('click',function(ev){
+        let formData = new FormData(formSolicitud);
+        formData.append("idConvocatoria",idConvo)
+        for (var pair of formData.entries()) {
+            console.log(pair[0]+ ', '+ pair[1]); 
+        }
+        fetch("./api/SolicitudApi.php",{
+            method: 'POST',
+            body: formData
+        })
+        .then(x=>x.json())
+        .then(respuesta=>{
+            if(respuesta.status =="success"){
+                console.log(respuesta.message +" "+respuesta.id);
+                //uso encodeURIComponent para evitar que pueda cambiar el valor al pasarlo por url
+                fetch("./api/BaremacionApi.php?idConvocatoria="+encodeURIComponent(idConvo)+"&idSolicitud="+encodeURIComponent(respuesta.id),{
+                    method: 'POST'
+                })
+                .then(x=>x.json())
+                .then(response =>{
+                    console.log(response)
+                })
 
+
+
+            }else{
+                console.log(respuesta.message)
+            }
+        })
+    })
 
     /**
      * Funcion que devuelve si una fecha es mayor de edad
