@@ -6,6 +6,8 @@ window.addEventListener('load', function () {
     let itemsDiv = this.document.getElementById("itemBaremablesConvo")
     let checkboxDestinatario = document.getElementsByName('destinatario');
     let tbody = this.document.getElementById("tbItemBaremables");
+    let divNotaIdioma = this.document.getElementById("puntuacionIdioma")
+    let tbodyIdioma = document.getElementById("tbodyPuntosIdioma")
 
     //rellenar el select de proyecto
     fetch("./api/ProyectoApi.php", {
@@ -62,6 +64,11 @@ window.addEventListener('load', function () {
                         var requisito = fila.querySelector(".requsitoItem")
 
                         chexbox.value = item.id;
+                        if(chexbox.value ==1){
+                            chexbox.addEventListener('change',function(event){
+                                mostrarNotaIdioma(event.target.checked)
+                            })
+                        }
                         nombre.innerHTML = item.nombre;
                         requisito.value = "no";
                         aportaAlumno.value = "no";
@@ -93,23 +100,6 @@ window.addEventListener('load', function () {
                 })
         })
 
-    
-    //cojo los checkboxes de item baremables
-    var checkboxes = document.querySelectorAll('.checkItem');
-    for (var i = 0; i < checkboxes.length; i++) {
-        // compruebo si el checkbox de idioma esta seleccionado
-        if (checkboxes[i].value === '1') {
-            checkboxes[i].addEventListener('change', function () {
-                if (this.checked) {
-                    //TODO Añadir la tabla de puntuacion de idioma
-                } else {
-                    //TODO Borrar la tabla de puntuacion de idioma si existe
-                }
-            });
-            // Rompe el ciclo una vez que encuentres el checkbox
-            break;
-        }
-    }
 
     duracion.addEventListener('change', function () {
         if (this.value <= 90) {
@@ -118,4 +108,43 @@ window.addEventListener('load', function () {
             selectTipo.value = "larga duracion"
         }
     })
+
+    function mostrarNotaIdioma(activo){
+        console.log(activo)
+        if(activo){
+            divNotaIdioma.style.display=""
+            tablaNotaIdioma()
+        }else{
+            divNotaIdioma.style.display="none"
+            tbodyIdioma.replaceChildren()
+        }
+    }
+
+    function tablaNotaIdioma(){
+        
+        fetch("./views/plantillas/listadoConvocatoriaBaremoIdioma.html")
+        .then(x => x.text())
+        .then(tr => {
+            tbodyAux = document.createElement("tbody");
+            tbodyAux.innerHTML = tr;
+            var filaC = tbodyAux.children[0];
+
+            this.fetch("./api/NivelIdiomaApi.php", {
+                method: 'GET'
+            })
+                .then(x => x.json())
+                .then(items => {
+
+                    items.forEach(item => {
+                        var fila = filaC.cloneNode(true);
+                        let idIdioma = fila.querySelector(".idNivelIdioma");
+                        var nombreIdioma = fila.querySelector(".nombreIdioma");
+
+                        idIdioma.value = item.id;
+                        nombreIdioma.innerHTML = item.nombre;
+                        tbodyIdioma.appendChild(fila);
+                    })
+                })
+        })
+    }
 })

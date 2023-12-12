@@ -1,91 +1,95 @@
 <?php
 //si el formualario ha sido enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $valida = true;
     $correcto = true;
-    switch ($_POST['accion']) {
-        case "Crear Convocatoria":
-            //regojo los datos principales de la convocatoria
-            $proyecto = $_POST['proyecto'];
-            $num_movilidades = $_POST['num_movilidades'];
-            $duracion = $_POST['duracion'];
-            $tipo = $_POST['tipo'];
-            $fechaIniSolicitud = $_POST['fechaIniSolicitud'];
-            $fechaFinSolicitud = $_POST['fechaFinSolicitud'];
-            $fechaIniPruebas = $_POST['fechaIniPruebas'];
-            $fechaFinPruebas = $_POST['fechaFinPruebas'];
-            $fechaListadoProvisional = $_POST['fechaListadoProvisional'];
-            $fechaListadoDefinitivo = $_POST['fechaListadoDefinitivo'];
-            $destino = $_POST['destino'];
-
-            $convocatoria = new Convocatoria(
-                null,
-                $num_movilidades,
-                $duracion,
-                $tipo,
-                $fechaIniSolicitud,
-                $fechaFinSolicitud,
-                $fechaIniPruebas,
-                $fechaFinPruebas,
-                $fechaListadoProvisional,
-                $fechaListadoDefinitivo,
-                $proyecto,
-                $destino
-            );
-
-            $idConvocatoria = ConvocatoriaRepo::setConvocatoria($convocatoria);
-            //si se ha creado correctamente la convocatoria (devuelve el id de la convocatorias)
-            //creo los itembaremables y los destinatarios
-            if ($idConvocatoria > 0) {
-                //items baremables
-                //compruebo si se ha marcado algun checkbox de los items
-                if (isset($_POST['itemBaremable']) && !empty($_POST['itemBaremable'])) {
-                    $itemBaremable = $_POST['itemBaremable'];
-                    $nombreItem = $_POST['nombreItem'];
-                    $nota = $_POST['nota'];
-                    $requsitoItem = $_POST['requsitoItem'];
-                    $valorMin = $_POST['valorMin'];
-                    $aportaAlumnoItem = $_POST['aportaAlumnoItem'];
-                    $itemsBaremables = array();
-
-                    for ($i = 0; $i < count($itemBaremable); $i++) {
-                        //creo el objeto de la fila con checkbox
-                        if (isset($itemBaremable[$i])) {
-                            // Crear un nuevo objeto ConvocatoriaItemBaremable con los datos de la fila
-                            $item = new ConvocatoriaItemBaremable($idConvocatoria, $itemBaremable[$i], $nota[$i], $requsitoItem[$i], $valorMin[$i], $aportaAlumnoItem[$i]);
-                            // Añadir el objeto al array
-                            $itemsBaremables[] = $item;
+    if($valida){
+        switch ($_POST['accion']) {
+            case "Crear Convocatoria":
+                //regojo los datos principales de la convocatoria
+                $proyecto = $_POST['proyecto'];
+                $num_movilidades = $_POST['num_movilidades'];
+                $duracion = $_POST['duracion'];
+                $tipo = $_POST['tipo'];
+                $fechaIniSolicitud = $_POST['fechaIniSolicitud'];
+                $fechaFinSolicitud = $_POST['fechaFinSolicitud'];
+                $fechaIniPruebas = $_POST['fechaIniPruebas'];
+                $fechaFinPruebas = $_POST['fechaFinPruebas'];
+                $fechaListadoProvisional = $_POST['fechaListadoProvisional'];
+                $fechaListadoDefinitivo = $_POST['fechaListadoDefinitivo'];
+                $destino = $_POST['destino'];
+    
+                $convocatoria = new Convocatoria(
+                    null,
+                    $num_movilidades,
+                    $duracion,
+                    $tipo,
+                    $fechaIniSolicitud,
+                    $fechaFinSolicitud,
+                    $fechaIniPruebas,
+                    $fechaFinPruebas,
+                    $fechaListadoProvisional,
+                    $fechaListadoDefinitivo,
+                    $proyecto,
+                    $destino
+                );
+    
+                $idConvocatoria = ConvocatoriaRepo::setConvocatoria($convocatoria);
+                //si se ha creado correctamente la convocatoria (devuelve el id de la convocatorias)
+                //creo los itembaremables y los destinatarios
+                if ($idConvocatoria > 0) {
+                    //items baremables
+                    //compruebo si se ha marcado algun checkbox de los items
+                    if (isset($_POST['itemBaremable']) && !empty($_POST['itemBaremable'])) {
+                        $itemBaremable = $_POST['itemBaremable'];
+                        $nombreItem = $_POST['nombreItem'];
+                        $nota = $_POST['nota'];
+                        $requsitoItem = $_POST['requsitoItem'];
+                        $valorMin = $_POST['valorMin'];
+                        $aportaAlumnoItem = $_POST['aportaAlumnoItem'];
+                        $itemsBaremables = array();
+    
+                        for ($i = 0; $i < count($itemBaremable); $i++) {
+                            //creo el objeto de la fila con checkbox
+                            if (isset($itemBaremable[$i])) {
+                                // Crear un nuevo objeto ConvocatoriaItemBaremable con los datos de la fila
+                                $item = new ConvocatoriaItemBaremable($idConvocatoria, $itemBaremable[$i], $nota[$i], $requsitoItem[$i], $valorMin[$i], $aportaAlumnoItem[$i]);
+                                // Añadir el objeto al array
+                                $itemsBaremables[] = $item;
+                            }
+                        }
+                        $rows = ConvocatoriaItemBaremableRepo::setItemsBaremablesParaConvocatoria($idConvocatoria, $itemsBaremables);
+                        if ($rows != count($itemsBaremables)) {
+                            $correcto = false;
+                        }
+                    } else {
+                        //todo mensaje de error
+                    }
+    
+                    //destinatarios
+                    if (!empty($_POST['destinatario'])) {
+                        //recojo en un array los id de los destinatarios
+                        $idDestinatarios = $_POST['destinatario'];
+    
+                        $rows = ConvocatoriaDestinatarioRepo::setDestinatariosParaConvocatoria($idConvocatoria, $idDestinatarios);
+                        if ($rows != count($idDestinatarios)) {
+                            $correcto = false;
                         }
                     }
-                    $rows = ConvocatoriaItemBaremableRepo::setItemsBaremablesParaConvocatoria($idConvocatoria, $itemsBaremables);
-                    if ($rows != count($itemsBaremables)) {
-                        $correcto = false;
-                    }
-                } else {
-                    //todo mensaje de error
                 }
-
-                //destinatarios
-                if (!empty($_POST['destinatario'])) {
-                    //recojo en un array los id de los destinatarios
-                    $idDestinatarios = $_POST['destinatario'];
-
-                    $rows = ConvocatoriaDestinatarioRepo::setDestinatariosParaConvocatoria($idConvocatoria, $idDestinatarios);
-                    if ($rows != count($idDestinatarios)) {
-                        $correcto = false;
-                    }
+                if ($correcto) {
+                    $_SESSION['success'] = "La convocatoria se ha creado correctamente";
+                    header("Location: ?menu=inicioAdmin");
+                    exit;
                 }
-            }
-            if ($correcto) {
-                $_SESSION['success'] = "La convocatoria se ha creado correctamente";
-                header("Location: ?menu=inicioAdmin");
-                exit;
-            }
-
-            break;
-        case "Actualizar convocatoria":
-            //todo recoger los datos del formulario y actualizar la convocatoria
-            break;
+    
+                break;
+            case "Actualizar convocatoria":
+                //todo recoger los datos del formulario y actualizar la convocatoria
+                break;
+        }
     }
+    
 }
 ?>
 <script src="./javaScript/formularioConvocatoriaJs.js"></script>
@@ -140,15 +144,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </thead>
                 <tbody id="tbItemBaremables"></tbody>
             </table>
-            <div id="puntuacionIdioma">
-                <label for="puntosIdioma"></label>
+            <div id="puntuacionIdioma" style="display: none;">
+                <label for="puntosIdioma">Puntuación nivel ididoma</label>
                 <table id="puntosIdioma">
                     <thead>
                         <tr>
+                            <th hidden>id</th>
                             <th>Nivel</th>
                             <th>Puntucación</th>
                         </tr>
                     </thead>
+                    <tbody id="tbodyPuntosIdioma"></tbody>
                 </table>
             </div>
             <?php

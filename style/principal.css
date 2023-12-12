@@ -198,7 +198,7 @@ table#listadoConvocatorias{
     text-align: center;
 }
 table#listadoConvocatorias th{
-    padding: 0.1em 1.2em 0.1em 1.2em;
+    padding: 0.1em 0.2em 0.1em 0.2em;
 }
 
 
@@ -267,9 +267,14 @@ main#formularioConvocatoria form input[type="submit"]{
     /*Parte del formulario que controla los destinatarios e items baramables*/
 div#destinatariosConvo label[for="destinatarios"],
 div#itemBaremablesConvo label[for="itemBaremables"],
-div#itemBaremablesConvo table{
+div#itemBaremablesConvo table,
+#puntuacionIdioma{
     grid-column: 1/5;
     margin: 0.4em 0;
+}
+
+#puntosIdioma{
+    grid-column: 2/4;
 }
 div#destinatariosConvo input{
     width: fit-content !important;
@@ -289,6 +294,7 @@ div#itemBaremablesConvo table th{
 }
 
 
+
 /*Crud convocatorias*/
 main#crudConvocatoria form{
     padding-left: 1em;
@@ -303,7 +309,7 @@ main#crudConvocatoria table th{
 }
 main#crudConvocatoria table tr{
     background-color: white;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 main#crudConvocatoria input{
