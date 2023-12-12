@@ -38,7 +38,8 @@ window.addEventListener('load', function(){
                     
                     
                     btn.onclick = function () {
-
+                        localStorage.setItem('idConvo', convocatoria.id);
+                        location.href = '?menu=realizarSolicitud'
                     }
 
                     tbody.appendChild(fila);
