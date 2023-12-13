@@ -23,7 +23,7 @@ class ServicioCorreos {
         $mail->Port       = 587;
         $mail->Username   = "emarcha466@g.educaand.es";
         $mail->Password   = "cbdo sdoz aziz tlud";
-        $mail->SetFrom('emarcha466@g.educaand.es', 'Prueba');
+        $mail->SetFrom('emarcha466@g.educaand.es', 'Gestion Erasmus IES Las Fuentezuelas');
         $mail->Subject    = $this->asunto;
         $mail->MsgHTML($this->descripcion);
         $address = $this->destinatario;
@@ -32,10 +32,12 @@ class ServicioCorreos {
         $result = $mail->Send();
 
         if(!$result) {
-            echo "Error" . $mail->ErrorInfo;
+            $enviado = false;
         } else {
-            echo "Correo enviado correctamente<br>";
+            $enviado = true;
         }
+
+        return $enviado;
     }
 }
 

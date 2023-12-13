@@ -18,6 +18,7 @@ elseif ($_SERVER['REQUEST_METHOD']=='DELETE') {
     if(isset($_GET['idConvocatoria'])){
         $row = ConvocatoriaItemBaremableRepo::deleteItemsBaremablesByConvocatoriaId($_GET['idConvocatoria']);
         if ($row > 0) {
+            http_response_code(200);
             echo json_encode(array("status" => "success", "message" => "Items baremables eliminados correctamente"));
         } else {
             http_response_code(400);
