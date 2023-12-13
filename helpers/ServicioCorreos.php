@@ -1,6 +1,7 @@
 <?php
+require_once "../vendor/autoload.php";
 use PHPMailer\PHPMailer\PHPMailer;
-require "./vendor/autoload.php";
+
 
 class ServicioCorreos {
     private $asunto;
