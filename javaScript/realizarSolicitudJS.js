@@ -36,9 +36,7 @@ window.addEventListener('load', function () {
                 .then(response =>{
                     console.log(response)
                 })
-
-
-
+                
             }else{
                 console.log(respuesta.message)
             }
