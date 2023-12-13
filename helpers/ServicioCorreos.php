@@ -7,11 +7,14 @@ class ServicioCorreos {
     private $asunto;
     private $descripcion;
     private $destinatario;
+    private $pdf;
 
-    public function __construct($destinatario = null, $asunto = "asunto", $descripcion = "descripción") {
+    public function __construct($destinatario = null, $asunto = "asunto", $descripcion = "descripción", $pdf = null) {
         $this->asunto = $asunto;
         $this->descripcion = $descripcion;
         $this->destinatario = $destinatario;
+        $this->pdf = $pdf;
+
     }
 
     public function enviar() {
@@ -28,6 +31,9 @@ class ServicioCorreos {
         $mail->Subject    = $this->asunto;
         $mail->MsgHTML($this->descripcion);
         $address = $this->destinatario;
+        if($this ->pdf !=null){
+            $mail->addAttachment($this->pdf);
+        }
         $mail->AddAddress($address, "Yo");
 
         $result = $mail->Send();

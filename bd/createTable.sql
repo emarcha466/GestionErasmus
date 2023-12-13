@@ -71,7 +71,7 @@ CREATE TABLE solicitud
     correo         varchar(30)  not null,
     domicilio      varchar(50),
     pass           varchar(30),
-    imagen         varchar(200),
+    imagen         blob,
     idConvocatoria int(3),
     dniTutor       varchar(9),
     apellidosTutor varchar(100),

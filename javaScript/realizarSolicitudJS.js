@@ -60,7 +60,7 @@ window.addEventListener('load', function () {
                                         .then(x => x.json())
                                         .then(respC => {
                                             if(respC.status =="success"){
-                                                console.log(respC.message)
+                                                formSolicitud.reset()
                                             }
                                         })
                                     });

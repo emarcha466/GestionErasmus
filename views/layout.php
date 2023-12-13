@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="\GestionErasmus\style\principal.css">
     <link rel="shortcut icon" href="./img/logoSF.png" type="image/x-icon">
     <script src="./javaScript/eliminarMensajesJS.js"></script>
+    <script src="./javaScript/muestraMensajes.js"></script>
+    <script src="./javaScript/validaciones.js"></script>
 </head>
 
 <body>
