@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $domicilio = $_POST['domicilio'];
     $pass = $_POST['pass'];
     $idConvocatoria = $_POST['idConvocatoria'];
-    //$imagen = $_POST['imagen'];
-    $imagen = "ruta";
+    $imagen = $_POST['imagen'];
+    //$imagen = "ruta";
     $dniTutor = $_POST['dniTutor'];
     $apellidosTutor = $_POST['apellidosTutor'];
     $nombreTutor = $_POST['nombreTutor'];

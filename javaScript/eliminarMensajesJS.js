@@ -4,7 +4,7 @@ window.addEventListener("load", function(){
     //funcion que elimina los mensajes del formulario
     mensajes.forEach(mensaje=>{
         setTimeout(function() {
-            mensaje.remove();
-        }, 2000);
+            mensaje.style.display="none"
+        }, 3000);
     })
 })

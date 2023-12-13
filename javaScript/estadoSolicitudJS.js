@@ -7,14 +7,17 @@ window.addEventListener('load', function(){
         let convocatoria = document.getElementById("convocatoria")
         let dni = document.getElementById("dni")
         let pass = document.getElementById("contrasena")
-        console.log(convocatoria+" "+dni+" "+pass)
 
         fetch("./api/SolicitudApi.php?id="+encodeURIComponent(convocatoria.value)+"&dni="+encodeURIComponent(dni.value)+"&pass="+encodeURIComponent(pass.value),{
             method: 'GET'
         })
         .then(x=>x.json())
         .then(y=>{
-            console.log(y)
+            if(!y){
+                muestraError("No se ha encontrado ninguna solicitud con esos credenciales")
+            }else{
+                
+            }
         })
 
     })

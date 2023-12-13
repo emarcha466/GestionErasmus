@@ -20,6 +20,8 @@ if (isset($_POST['consultaEstado'])) {
 
 <main id="estadoSolicitudLogin">
     <h2>Consultar estado de la Solicitud</h2>
+    <p class="success" style="display: none;"></p>
+    <p class="error" style="display: none;"></p>
     <?php
     if (isset($_SESSION['login_error']) && $_SESSION['login_error']) {
         echo ("<p class='error'>Los datos introducidos no corresponden con una solicitud</p>");

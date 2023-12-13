@@ -164,6 +164,15 @@ footer #redesFooter{
     align-self: center;
 }
 
+
+.valido{
+    border: 1px solid green;
+}
+.invalido{
+    border: 1px solid red;
+}
+
+
 .hiddenColumn {
     display: none;
   }
