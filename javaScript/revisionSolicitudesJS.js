@@ -100,7 +100,7 @@ window.addEventListener('load', function () {
     }
 
 
-    function baremar(id, idSol) {
+    function baremar(idConvocatoria, idSolicitud) {
         //fondo modal
         var modal = document.createElement("div")
         modal.style.position = "fixed"
@@ -114,18 +114,19 @@ window.addEventListener('load', function () {
 
         //visualizador
         var visualizador = document.createElement("div")
+        visualizador.id = "modalBaremo"
         visualizador.style.position = "fixed"
         visualizador.style.left = "15%"
-        visualizador.style.top = "15%"
+        visualizador.style.top = "3%"
         visualizador.style.width = "70%";
-        visualizador.style.height = "80%";
+        visualizador.style.height = "90%";
         visualizador.style.backgroundColor = "white"
         visualizador.style.zIndex = 100
         document.body.appendChild(visualizador)
 
         var closer = document.createElement("img")
-        closer.src="./recursos/img/cerrar.png"
-        closer.width =30
+        closer.src = "./recursos/img/cerrar.png"
+        closer.width = 30
         closer.style.position = "fixed"
         closer.style.top = 0
         closer.style.right = 0
@@ -137,8 +138,80 @@ window.addEventListener('load', function () {
             document.body.removeChild(visualizador)
             document.body.removeChild(this)
         }
+
+        //llamada para traerme la baremacion
+        fetch("./api/BaremacionApi.php?idConvocatoria=" + encodeURIComponent(idConvocatoria) + "&idSolicitud=" + encodeURIComponent(idSolicitud), {
+            method: 'GET'
+        })
+            .then(x => x.json())
+            .then(bare => {
+
+                // Crear tabla
+                var table = document.createElement('table');
+                table.id = "tbBaremaciones"
+                let cabecera = document.createElement('tr');
+                let nombre = document.createElement('th');
+                let nota = document.createElement('th');
+                nombre.innerHTML = "Item"
+                nota.innerHTML = "Nota"
+                cabecera.appendChild(nombre)
+                cabecera.appendChild(nota)
+                table.appendChild(cabecera)
+                bare.forEach(function (item) {
+                    var tr = document.createElement('tr');
+                    var cell1 = document.createElement('td');
+                    var cell2 = document.createElement('td');
+                    cell1.innerHTML = item.nombre;
+
+                    //input para la nota
+                    let input = document.createElement('input')
+                    input.type = "number"
+                    input.value = item.notaProvisional || ''
+                    input.min =0
+                    input.max = item.importancia
+                    input.dataset.id_item = item.idItemBaremable
+                    cell2.appendChild(input)
+
+                    // Agregar evento de clic a la celda
+                    cell1.addEventListener('click', function () {
+                        if(item.aportaAlumno=="si"){
+                            muestraPdf(item.url, visualizador);
+                        }
+                        
+                    });
+
+                    tr.appendChild(cell1);
+                    tr.appendChild(cell2);
+                    table.appendChild(tr);
+                });
+                visualizador.appendChild(table);
+
+                //creo el boton para realizar baremacion
+                let btnBaremacion = document.createElement("input")
+                btnBaremacion.type="button"
+                btnBaremacion.classList.add("btnPantalla")
+                btnBaremacion.value="Realizar Baremacion"
+                visualizador.appendChild(btnBaremacion)
+            })
     }
 
+
+    // Función para mostrar el PDF
+    function muestraPdf(url, contenedor) {
+        // Si ha un visor antiguo lo elimino
+        var visorAntiguo = document.querySelector('#pdfViewer');
+        if (visorAntiguo) {
+            contenedor.removeChild(visorAntiguo);
+        }
+
+        // Crear nuevo visor de PDF
+        var pdfViewer = document.createElement('iframe');
+        pdfViewer.id = 'pdfViewer';
+        pdfViewer.style.width = '100%';
+        pdfViewer.style.height = '70%';
+        pdfViewer.src = url;
+        contenedor.appendChild(pdfViewer);
+    }
 
     /**
  * Funcion que devuelve la fecha actual en formato yyyy-mm-dd

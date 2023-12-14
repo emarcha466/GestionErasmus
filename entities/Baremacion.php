@@ -6,15 +6,26 @@ class Baremacion implements JsonSerializable {
     private $notaProvisional;
     private $notaDefinitiva;
     private $url;
+    private $nombre;
+    private $importancia;
+    private $requisito;
+    private $valorMinimo;
+    private $aportaAlumno;
 
     //constructor
-    public function __construct($idConvocatoria, $idSolicitud, $idItemBaremable, $notaProvisional, $notaDefinitiva, $url) {
+    public function __construct($idConvocatoria, $idSolicitud, $idItemBaremable, $notaProvisional, $notaDefinitiva, $url, 
+                    $nombre = null, $importancia = null, $requisito = null, $valorMinimo = null, $aportaAlumno = null) {
         $this->idConvocatoria = $idConvocatoria;
         $this->idSolicitud = $idSolicitud;
         $this->idItemBaremable = $idItemBaremable;
         $this->notaProvisional = $notaProvisional;
         $this->notaDefinitiva = $notaDefinitiva;
         $this->url = $url;
+        $this->nombre = $nombre;
+        $this->importancia = $importancia;
+        $this->requisito = $requisito;
+        $this->valorMinimo = $valorMinimo;
+        $this->aportaAlumno = $aportaAlumno;
     }
 
     //para pasar a json
@@ -25,7 +36,12 @@ class Baremacion implements JsonSerializable {
             'idItemBaremable' => $this->idItemBaremable,
             'notaProvisional' => $this->notaProvisional,
             'notaDefinitiva' => $this->notaDefinitiva,
-            'url' => $this->url
+            'url' => $this->url,
+            'nombre' => $this->nombre,
+            'importancia' => $this->importancia,
+            'requisito' => $this->requisito,
+            'valorMinimo' => $this->valorMinimo,
+            'aportaAlumno' => $this->aportaAlumno
         ];
     }
 
@@ -78,6 +94,44 @@ class Baremacion implements JsonSerializable {
         $this->url = $url;
     }
 
-    
+    public function getNombre() {
+        return $this->nombre;
+    }
+
+    public function getImportancia() {
+        return $this->importancia;
+    }
+
+    public function getRequisito() {
+        return $this->requisito;
+    }
+
+    public function getValorMinimo() {
+        return $this->valorMinimo;
+    }
+
+    public function getAportaAlumno() {
+        return $this->aportaAlumno;
+    }
+
+    public function setNombre($nombre) {
+        $this->nombre = $nombre;
+    }
+
+    public function setImportancia($importancia) {
+        $this->importancia = $importancia;
+    }
+
+    public function setRequisito($requisito) {
+        $this->requisito = $requisito;
+    }
+
+    public function setValorMinimo($valorMinimo) {
+        $this->valorMinimo = $valorMinimo;
+    }
+
+    public function setAportaAlumno($aportaAlumno) {
+        $this->aportaAlumno = $aportaAlumno;
+    }
 }
 ?>

@@ -70,7 +70,11 @@ class BaremacionRepo
     public static function getBaremacionByIdConvocatoriaAndIdSolicitud($idConvocatoria, $idSolicitud)
     {
         $conexion = GBD::getConexion();
-        $select = "SELECT * FROM baremacion WHERE idConvocatoria = :idConvocatoria AND idSolicitud = :idSolicitud;";
+        $select = "SELECT b.*, i.nombre, c.importancia, c.requisito, c.valorMinimo, c.aportaAlumno 
+                FROM baremacion b 
+                INNER JOIN itemBaremable i ON b.idItemBaremable = i.id 
+                INNER JOIN convocatoria_itemBaremable c ON b.idConvocatoria = c.idConvocatoria AND b.idItemBaremable = c.idItem 
+                WHERE b.idConvocatoria = :idConvocatoria AND b.idSolicitud = :idSolicitud;";
         $stmt = $conexion->prepare($select);
         $stmt->bindParam(':idConvocatoria', $idConvocatoria);
         $stmt->bindParam(':idSolicitud', $idSolicitud);
@@ -85,7 +89,12 @@ class BaremacionRepo
                 $baremacion['idItemBaremable'],
                 $baremacion['notaProvisional'],
                 $baremacion['notaDefinitiva'],
-                $baremacion['url']
+                $baremacion['url'],
+                $baremacion['nombre'],
+                $baremacion['importancia'],
+                $baremacion['requisito'],
+                $baremacion['valorMinimo'],
+                $baremacion['aportaAlumno']
             );
         }
         return $baremacionesObject;
@@ -218,19 +227,20 @@ class BaremacionRepo
      * @param int $idSolicitud Id de la solicitd
      * @return true si lo hace correctamente
      */
-    public static function setItemBaremablesBaremacion($convocatoria_id, $solicitud_id) {
+    public static function setItemBaremablesBaremacion($convocatoria_id, $solicitud_id)
+    {
         try {
             $conexion = GBD::getConexion();
-            // Preparar la consulta para obtener los items de la convocatoria
+            // Cojo los id de los items de la convocatoria
             $stmt = $conexion->prepare("SELECT idItem FROM convocatoria_itemBaremable WHERE idConvocatoria = :convocatoria_id");
             $stmt->bindParam(':convocatoria_id', $convocatoria_id);
             $stmt->execute();
-            
-            // Recorrer todos los items
+
+            // recorro los ids
             while ($ids = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $item_id = $ids['idItem'];
-    
-                // Preparar la consulta para insertar en la tabla baremacion
+
+                //inserto los items
                 $stmt2 = $conexion->prepare("INSERT INTO baremacion (idConvocatoria, idSolicitud, idItemBaremable, notaProvisional, notaDefinitiva, url) VALUES (:convocatoria_id, :solicitud_id, :item_id, NULL, NULL, NULL)");
                 $stmt2->bindParam(':convocatoria_id', $convocatoria_id);
                 $stmt2->bindParam(':solicitud_id', $solicitud_id);
@@ -242,6 +252,4 @@ class BaremacionRepo
             return false;
         }
     }
-
-
 }
