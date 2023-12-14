@@ -61,7 +61,7 @@ window.addEventListener('load', function () {
                 tbodyAux.innerHTML = tr;
                 var filaC = tbodyAux.children[0];
                 //llamo a la API para recoger las convocatorias
-                fetch("./api/SolicitudApi.php?idConvocatoria="+encodeURIComponent(idConvocatoria))
+                fetch("./api/SolicitudApi.php?idConvocatoria=" + encodeURIComponent(idConvocatoria))
                     .then(x => x.json())
                     .then(solicitudes => {
                         tbody.replaceChildren();
@@ -77,6 +77,7 @@ window.addEventListener('load', function () {
                             var correo = fila.querySelector(".correo");
                             var id = fila.querySelector(".id")
                             var idConvocatoria = fila.querySelector(".idConvocatoria")
+                            var btnBaremacion = fila.querySelector(".baremacion")
 
                             dni.innerHTML = solicitud.dni
                             apellidos.innerHTML = solicitud.apellidos
@@ -86,12 +87,56 @@ window.addEventListener('load', function () {
                             correo.innerHTML = solicitud.correo
                             id.value = solicitud.id
                             idConvocatoria.value = solicitud.idConvocatoria
+                            btnBaremacion.onclick = function (ev) {
+                                ev.preventDefault()
+                                baremar(solicitud.idConvocatoria, solicitud.id)
+                            }
 
                             tbody.appendChild(fila);
                         });
                     })
 
             })
+    }
+
+
+    function baremar(id, idSol) {
+        //fondo modal
+        var modal = document.createElement("div")
+        modal.style.position = "fixed"
+        modal.style.left = 0
+        modal.style.top = 0
+        modal.style.width = "100%";
+        modal.style.height = "100%";
+        modal.style.backgroundColor = "rgba(0,0,0,0.5)"
+        modal.style.zIndex = 99
+        document.body.appendChild(modal)
+
+        //visualizador
+        var visualizador = document.createElement("div")
+        visualizador.style.position = "fixed"
+        visualizador.style.left = "15%"
+        visualizador.style.top = "15%"
+        visualizador.style.width = "70%";
+        visualizador.style.height = "80%";
+        visualizador.style.backgroundColor = "white"
+        visualizador.style.zIndex = 100
+        document.body.appendChild(visualizador)
+
+        var closer = document.createElement("img")
+        closer.src="./recursos/img/cerrar.png"
+        closer.width =30
+        closer.style.position = "fixed"
+        closer.style.top = 0
+        closer.style.right = 0
+        closer.style.zIndex = 101
+        document.body.appendChild(closer)
+
+        closer.onclick = function () {
+            document.body.removeChild(modal)
+            document.body.removeChild(visualizador)
+            document.body.removeChild(this)
+        }
     }
 
 
