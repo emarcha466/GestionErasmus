@@ -164,18 +164,18 @@ footer #redesFooter{
     align-self: center;
 }
 
-
+/*Campos de formulario*/
 .valido{
-    border: 1px solid green;
+    border: 1px solid green !important;
 }
 .invalido{
-    border: 1px solid red;
+    border: 1px solid red !important;
 }
 
 
 .hiddenColumn {
     display: none;
-  }
+}
 
 /*Configurar el aspecto general del main*/
 

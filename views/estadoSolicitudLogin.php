@@ -33,11 +33,11 @@ if (isset($_POST['consultaEstado'])) {
     ?>
     <form action="" method="post">
         <label for="convocatoria">Convocatoria:</label>
-        <input type="text" name="convocatoria" id="convocatoria">
+        <input type="text" name="convocatoria" id="convocatoria" data-valida="relleno">
         <label for="dni">DNI:</label>
-        <input type="text" name="dni" id="dni">
+        <input type="text" name="dni" id="dni" data-valida="dni">
         <label for="contrasena">Contraseña:</label>
-        <input type="text" name="contrasena" id="contrasena">
+        <input type="text" name="contrasena" id="contrasena" data-valida="relleno">
         <input type="submit" value="Consultar estado" name="consultaEstado" class="btnPantalla" id="btnConsultar">
     </form>
 </main>
