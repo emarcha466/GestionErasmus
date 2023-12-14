@@ -47,9 +47,6 @@ window.addEventListener('load', function () {
             })
     }
 
-
-
-
     function mostrarSolicitudes(idConvocatoria) {
 
         //relleno la tabla con las solicitudes segun la plantilla
@@ -192,7 +189,13 @@ window.addEventListener('load', function () {
                 btnBaremacion.classList.add("btnPantalla")
                 btnBaremacion.value="Realizar Baremacion"
                 visualizador.appendChild(btnBaremacion)
+                btnBaremacion.onclick=realiarBaremacion()
             })
+    }
+
+    //Realizar la baremacion
+    function realiarBaremacion(){
+        
     }
 
 
