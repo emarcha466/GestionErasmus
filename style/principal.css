@@ -131,6 +131,7 @@ footer #redesFooter{
     font-size: 1.3em !important;
     cursor: pointer !important;
     width: fit-content!important;
+    height: fit-content !important;
 }
 
 .btnPantalla:hover{
@@ -405,4 +406,44 @@ main#revisionSolicitudes table {
 
 main#revisionSolicitudes table th{
     padding:0 1em 1em 1em;
+}
+
+
+/*Realizar solicitud*/
+main#realizarSolicitud form{
+    display: grid;
+    grid-template-columns:  repeat(4,1fr);
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+}
+
+main#realizarSolicitud input,
+main#realizarSolicitud label,
+main#realizarSolicitud form select{
+    font-size: 1.2em;
+}
+
+main#realizarSolicitud form input,
+main#realizarSolicitud form select{
+    border: none;
+    border-radius: 1em;
+    padding: 0.2em 0.4em;
+    height: 1.8em;
+}
+main#realizarSolicitud form select{
+    height: 2.3em;
+}
+
+main#realizarSolicitud form input[type="button"]{
+    grid-column: 1/5;
+    justify-self: center;
+    margin-top: 1em;
+}
+
+main#realizarSolicitud form fieldset{
+    grid-column: 1/5;
+    display: grid;
+    grid-template-columns:  repeat(4,1fr);
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
 }
