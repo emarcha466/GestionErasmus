@@ -27,7 +27,7 @@
         <input type="password" id="pass" name="pass" data-valida="relleno">
         <label for="imagen">Imagen:</label>
         <button id="openWebcam" onclick="modalFoto(event)" class="btnRealizarSolicitud">Abrir Webcam</button>
-        <img id="imgFotoPerfil" src="" alt="Foto Perfil">
+        <img id="imgFotoPerfil" src="" alt="Foto Perfil" style="display: none;">
         <input type="hidden" id="blob" name="imagen" readonly>
         <fieldset id="infoTutor" style="display: none;">
             <legend>Tutor legal</legend>

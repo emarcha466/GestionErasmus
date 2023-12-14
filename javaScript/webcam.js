@@ -31,20 +31,21 @@ function modalFoto(ev) {
     const context = canvas.getContext('2d');
 
     btnCaptura.innerHTML = "Tomar Foto";
+    btnCaptura.classList.add("btnPantalla")
     btnCaptura.setAttribute("id", "capture");
-    btnCaptura.style.margin = "10%";
 
     btnEnviarFoto.innerHTML = "Finalizar";
+    btnEnviarFoto.classList.add("btnPantalla")
     btnEnviarFoto.setAttribute("id", "btnFinalizarFoto");
-    btnEnviarFoto.style.margin = "10%";
     cuadrito.style.display = "none";
 
     btnEnviarFoto.addEventListener("click", function (event) {
         event.preventDefault();
         document.getElementById('imgFotoPerfil').src = r.recortar();
+        document.getElementById('imgFotoPerfil').style.display=""
         document.getElementById('blob').value = r.recortar();
         document.getElementById('blob').setAttribute("readonly", "readonly");
-        cerrarModal(event);
+        cerrarModal()
     });
     const constraints = {
         video: true,
@@ -80,17 +81,15 @@ function modalFoto(ev) {
     document.body.appendChild(modal);
 
     var visualizador = document.createElement("div");
+    visualizador.id ="visualizador"
     visualizador.style.position = "fixed";
     visualizador.style.left = "15%";
     visualizador.style.top = "15%";
     visualizador.style.width = "70%";
     visualizador.style.height = "70%";
-    visualizador.style.display = "grid";
-    visualizador.style.gridTemplateColumns = "50% 50%";
-    visualizador.style.gridTemplateRows = "70% 30%";
+
     visualizador.style.backgroundColor = "white";
     visualizador.style.zIndex = 100;
-    visualizador.setAttribute("id", "visualizador");
     visualizador.appendChild(video);
     visualizador.appendChild(canvas);
     visualizador.appendChild(cuadrito);
@@ -99,26 +98,25 @@ function modalFoto(ev) {
     document.body.appendChild(visualizador);
 
 
-    var closer = document.createElement("div");
-    closer.innerHTML = "X";
-    closer.style.position = "fixed";
-    closer.style.padding = "5px";
-    closer.style.backgroundColor = "white";
-    closer.style.top = 0;
-    closer.style.right = 0;
-    closer.style.zIndex = 101;
-    closer.setAttribute("id", "closer");
-    document.body.appendChild(closer);
+    var closer = document.createElement("img")
+    closer.src = "./recursos/img/cerrar.png"
+    closer.width = 30
+    closer.style.position = "fixed"
+    closer.style.top = 0
+    closer.style.right = 0
+    closer.style.zIndex = 101
+    document.body.appendChild(closer)
 
-    closer.setAttribute("onclick", "cerrarModal(event)");
+    closer.onclick = function () {
+        cerrarModal();
+    }
 
-}
+    function cerrarModal(){
+        document.body.removeChild(modal)
+        document.body.removeChild(visualizador)
+        document.body.removeChild(closer)
+    }
 
-function cerrarModal(ev) {
-    ev.preventDefault();
-    document.body.removeChild(document.getElementById("modal"));
-    document.body.removeChild(document.getElementById("visualizador"));
-    document.body.removeChild(document.getElementById("closer"));
 }
 
 //y coordenada y del extremo superior del recuadro en pixels

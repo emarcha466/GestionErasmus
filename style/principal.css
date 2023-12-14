@@ -439,6 +439,10 @@ main#realizarSolicitud form input[type="button"]{
     justify-self: center;
     margin-top: 1em;
 }
+main#realizarSolicitud form img{
+    grid-column: 1/5;
+    justify-self: center;
+}
 
 main#realizarSolicitud form fieldset{
     grid-column: 1/5;
@@ -464,4 +468,13 @@ main#realizarSolicitud form fieldset{
 #modalBaremo table input{
     padding: 0.5em 1em;
     border-radius: 1em;
+}
+
+/*Ventana modal webacam*/
+#visualizador{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 70% 30%;
+    padding: 1em;
+    justify-items: center;
 }
