@@ -52,20 +52,25 @@ class ConvocatoriaRepo
         $stmt->execute();
         $convocatoria = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $convoatoriaObject = new Convocatoria(
-            $convocatoria['id'],
-            $convocatoria['num_movilidades'],
-            $convocatoria['duracion'],
-            $convocatoria['tipo'],
-            $convocatoria['fechaIniSolicitud'],
-            $convocatoria['fechaFinSolicitud'],
-            $convocatoria['fechaIniPruebas'],
-            $convocatoria['fechaFinPruebas'],
-            $convocatoria['fechaListadoProvisional'],
-            $convocatoria['fechaListadoDefinitivo'],
-            $convocatoria['codigoProyecto'],
-            $convocatoria['destino']
-        );
+        if($convocatoria){
+            $convoatoriaObject = new Convocatoria(
+                $convocatoria['id'],
+                $convocatoria['num_movilidades'],
+                $convocatoria['duracion'],
+                $convocatoria['tipo'],
+                $convocatoria['fechaIniSolicitud'],
+                $convocatoria['fechaFinSolicitud'],
+                $convocatoria['fechaIniPruebas'],
+                $convocatoria['fechaFinPruebas'],
+                $convocatoria['fechaListadoProvisional'],
+                $convocatoria['fechaListadoDefinitivo'],
+                $convocatoria['codigoProyecto'],
+                $convocatoria['destino']
+            );
+        }else{
+            $convoatoriaObject = null;
+        }
+        
         return $convoatoriaObject;
     }
 

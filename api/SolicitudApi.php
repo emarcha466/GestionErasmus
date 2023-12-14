@@ -58,6 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $solicitud = SolicitudRepo::solicitarSolicitud($id, $dni, $pass);
         $solicitudJson = json_encode($solicitud);
         echo ($solicitudJson);
+    }elseif (isset($_GET['idConvocatoria'])) {
+        $idConvocatoria = $_GET['idConvocatoria'];
+        $solicitudes = SolicitudRepo::getSolicitudesByIdConvocatoria($idConvocatoria);
+        $solicitudesJson = json_encode($solicitudes);
+        echo ($solicitudesJson);
     } elseif (isset($_GET['id'])) {
         $id = $_GET['id'];
         $solicitud = SolicitudRepo::getSolicitudById($id);

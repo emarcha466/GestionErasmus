@@ -79,6 +79,47 @@ class SolicitudRepo
         return $solicitudObject;
     }
 
+    /**
+     * Funcion que devuelve las solicitudes buscando por idConvocatoria
+     * 
+     * @param int $idConvocatoria Id de la convocatoria a buscar
+     * @return array Array de objetos Solicitud con el idConvocatoria pasado como parámetro
+     */
+    public static function getSolicitudesByIdConvocatoria($idConvocatoria)
+    {
+        $conexion = GBD::getConexion();
+        $select = "select * from solicitud where idConvocatoria = :idConvocatoria;";
+        $stmt = $conexion->prepare($select);
+        $stmt->bindParam(':idConvocatoria', $idConvocatoria);
+        $stmt->execute();
+        $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $solicitudesObjects = [];
+        foreach ($solicitudes as $solicitud) {
+            $solicitudObject = new Solicitud(
+                $solicitud['id'],
+                $solicitud['dni'],
+                $solicitud['apellidos'],
+                $solicitud['nombre'],
+                $solicitud['fechaNac'],
+                $solicitud['curso'],
+                $solicitud['telefono'],
+                $solicitud['correo'],
+                $solicitud['domicilio'],
+                $solicitud['pass'],
+                $solicitud['idConvocatoria'],
+                $solicitud['imagen'],
+                $solicitud['dniTutor'],
+                $solicitud['apellidosTutor'],
+                $solicitud['nombreTutor'],
+                $solicitud['telefonoTutor'],
+                $solicitud['domicilioTutor']
+            );
+            $solicitudesObjects[] = $solicitudObject;
+        }
+        return $solicitudesObjects;
+    }
+
 
     /**
      * Funcion que comprueba que el id, dni y pass concuerdan con los de la solicitud
@@ -225,7 +266,7 @@ class SolicitudRepo
         try {
             $conexion = GBD::getConexion();
             //inicio de la transaccion
-            $conexion ->beginTransaction();
+            $conexion->beginTransaction();
             $insert = "INSERT INTO solicitud (dni, apellidos, nombre, fechaNac, curso, telefono, correo,
                 domicilio, pass, idConvocatoria, imagen, dniTutor, apellidosTutor, nombreTutor, telefonoTutor, domicilioTutor) 
                 VALUES (:dni, :apellidos, :nombre, :fechaNac, :curso, :telefono, :correo, :domicilio, :pass, 
@@ -250,9 +291,9 @@ class SolicitudRepo
                 ':domicilioTutor' => $solicitud->getDomicilioTutor()
             ];
             $stmt->execute($params);
-            $lastId = $conexion ->lastInsertId();
+            $lastId = $conexion->lastInsertId();
             //fin de la transaccion
-            $conexion ->commit();
+            $conexion->commit();
 
             return $lastId;
         } catch (PDOException $e) {

@@ -1,5 +1,5 @@
 -- usuarios
-insert into user (usuario, pass) values ('manolo','1234'),('silverio','1234');
+ insert into user (usuario, pass) values ('manolo','1234'),('silverio','1234');
 
 --  proyectos
 INSERT INTO proyecto (codigoProyecto, nombreProyecto, fechaInicio, fechaFin) VALUES
