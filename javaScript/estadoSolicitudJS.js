@@ -30,8 +30,24 @@ window.addEventListener('load', function () {
                                 alert("La solicitud se encuentra en el periodo de entrevistas")
                             }else if(y=="LISTADO_PROVISIONAL"){
                                 alert("Se ha publicado el listado provisional")
+                                fetch("./api/SolicitudApi.php/?idConvocatoria="+encodeURIComponent(solicitud.idConvocatoria)+"resultado",
+                                {
+                                    method:'GET'
+                                })
+                                .then(x=>x.json())
+                                .then(y=>{
+                                    console.log(y)
+                                })
                             }else if(y=="LISTADO_DEFINITIVO"){
                                 alert("Se ha publicado el istado definitivo")
+                                fetch("./api/SolicitudApi.php/?idConvocatoria="+encodeURIComponent(solicitud.idConvocatoria)+"resultado",
+                                {
+                                    method:'GET'
+                                })
+                                .then(x=>x.json())
+                                .then(y=>{
+                                    console.log(y)
+                                })
                             }
                         })
                         
@@ -114,6 +130,7 @@ window.addEventListener('load', function () {
                         //input para subir el pdf
                         let filePDF = document.createElement('input')
                         filePDF.type = "file"
+                        filePDF.accept = "application/pdf"
                         filePDF.classList ="pdfItem"
                         filePDF.name = "pdf[]"
                         filePDF.dataset.id_item = item.idItemBaremable
