@@ -4,6 +4,59 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "\GestionErasmus/helpers/autocargador.p
 class ConvocatoriaRepo
 {
 
+
+
+    /**
+     * Funcion que devuelve el estado de la convocatoria
+     *
+     * @param int $idConvocatoria El ID de la convocatoria.
+     * @param string $fecha La fecha
+     * @return string El estado de la convocatoria.
+     *
+     * Este método toma como argumentos un ID de convocatoria y una fecha. Busca en la base de datos la convocatoria con el ID proporcionado.
+     * Si la encuentra, crea un objeto Convocatoria y comprueba en qué período se encuentra la convocatoria basándose en la fecha proporcionada.
+     * Los posibles estados son: "SOLICITUD", "PRUEBAS", "LISTADO_PROVISIONAL", "LISTADO_DEFINITIVO" y "No estás en ningún período.".
+     * Si no encuentra ninguna convocatoria con el ID proporcionado, devuelve "No se encontró ninguna convocatoria con el ID proporcionado.".
+     */
+    public static function getConvocatoriaStatus($idConvocatoria, $fecha)
+    {
+        $conexion = GBD::getConexion();
+        $select = "SELECT * FROM convocatoria WHERE id = :idConvocatoria;";
+        $stmt = $conexion->prepare($select);
+        $stmt->execute([':idConvocatoria' => $idConvocatoria]);
+        $convocatoria = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($convocatoria) {
+            $convocatoriaObj = new Convocatoria(
+                $convocatoria['id'],
+                $convocatoria['num_movilidades'],
+                $convocatoria['duracion'],
+                $convocatoria['tipo'],
+                $convocatoria['fechaIniSolicitud'],
+                $convocatoria['fechaFinSolicitud'],
+                $convocatoria['fechaIniPruebas'],
+                $convocatoria['fechaFinPruebas'],
+                $convocatoria['fechaListadoProvisional'],
+                $convocatoria['fechaListadoDefinitivo'],
+                $convocatoria['codigoProyecto'],
+                $convocatoria['destino']
+            );
+            if ($fecha >= $convocatoriaObj->getFechaIniSolicitud() && $fecha <= $convocatoriaObj->getFechaFinSolicitud()) {
+                return "SOLICITUD";
+            } elseif ($fecha >= $convocatoriaObj->getFechaIniPruebas() && $fecha <= $convocatoriaObj->getFechaFinPruebas()) {
+                return "PRUEBAS";
+            } elseif ($fecha == $convocatoriaObj->getFechaListadoProvisional()) {
+                return "LISTADO_PROVISIONAL";
+            } elseif ($fecha == $convocatoriaObj->getFechaListadoDefinitivo()) {
+                return "LISTADO_DEFINITIVO";
+            } else {
+                return "No estás en ningún período.";
+            }
+        } else {
+            return "No se encontró ninguna convocatoria con el ID proporcionado.";
+        }
+    }
+
     /**
      * Funcion que devuelve un array con todas las convocatorias
      * 
@@ -52,7 +105,7 @@ class ConvocatoriaRepo
         $stmt->execute();
         $convocatoria = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($convocatoria){
+        if ($convocatoria) {
             $convoatoriaObject = new Convocatoria(
                 $convocatoria['id'],
                 $convocatoria['num_movilidades'],
@@ -67,10 +120,10 @@ class ConvocatoriaRepo
                 $convocatoria['codigoProyecto'],
                 $convocatoria['destino']
             );
-        }else{
+        } else {
             $convoatoriaObject = null;
         }
-        
+
         return $convoatoriaObject;
     }
 

@@ -1,6 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . "\GestionErasmus/helpers/autocargador.php";
-
+date_default_timezone_set('Europe/Madrid');
+$fechaActual = date('Y-m-d');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Recojo las variables para hacer el insert
     $id = $_POST['id'];
@@ -27,7 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo (json_encode(["status" => "error", "message" => "No se ha podido añadir la convocatoria"]));
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['id'])) {
+    if(isset($_GET['id'])&&(isset($_GET['date']))){
+        $id = $_GET['id'];
+        $date = $fechaActual;
+        $estado = ConvocatoriaRepo::getConvocatoriaStatus($id,$date);
+        echo(json_encode($estado));
+
+    }elseif(isset($_GET['id'])) {
         $id = $_GET['id'];
         $convocatoria = ConvocatoriaRepo::getConvocatoriaById($id);
         $convocatoriaJson = json_encode($convocatoria);

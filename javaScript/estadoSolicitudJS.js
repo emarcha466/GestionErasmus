@@ -18,7 +18,23 @@ window.addEventListener('load', function () {
                     if (!solicitud) {
                         muestraError("No se ha encontrado solicitud con los credenciales proporcionados")
                     } else {
-                        abrirModal(solicitud.idConvocatoria, solicitud.id, solicitud.dni)
+
+                        fetch("./api/ConvocatoriaApi.php/?id="+encodeURIComponent(solicitud.idConvocatoria)+"&date",{
+                            method:'GET'
+                        })
+                        .then(x=>x.json())
+                        .then(y=>{
+                            if(y=="SOLICITUD"){
+                                abrirModal(solicitud.idConvocatoria, solicitud.id, solicitud.dni)
+                            }else if(y=="PRUEBAS"){
+                                alert("La solicitud se encuentra en el periodo de entrevistas")
+                            }else if(y=="LISTADO_PROVISIONAL"){
+                                alert("Se ha publicado el listado provisional")
+                            }else if(y=="LISTADO_DEFINITIVO"){
+                                alert("Se ha publicado el istado definitivo")
+                            }
+                        })
+                        
                     }
                 })
 
@@ -130,8 +146,22 @@ window.addEventListener('load', function () {
                 btnSolicitud.classList.add("btnPantalla")
                 btnSolicitud.value = "Finalizar Solicitud"
                 btnSolicitud.onclick=function(){
-                    let data = new FormData()
                     let inputs = Array.from(document.getElementsByClassName("pdfItem"))
+                    let isValid = true;
+
+                    inputs.forEach(input => {
+                        if (!input.files.length) {
+                            isValid = false;
+                        }
+                    });
+                    if(!isValid){
+                        alert('Debe proporcionar todos los documentos');
+
+                    }
+                
+                    if (isValid) {
+                        let data = new FormData()
+                    
                     let idItems = []
                     inputs.forEach(input => {
                         console.log(input.dataset.id_convocatoria + "_" + input.dataset.id_solicitud + "_" + input.dataset.id_item + "_"+dni)
@@ -148,9 +178,10 @@ window.addEventListener('load', function () {
                         body: data
                     })
                     .then(response => response.json())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('Error:', error));
-
+                    .then(result => {
+                        location.href="?menu=estadoSolicitudLogin"
+                    });
+                }
                 }
                 visualizador.appendChild(btnSolicitud)
             })

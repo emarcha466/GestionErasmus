@@ -92,6 +92,10 @@ window.addEventListener('load', function () {
                         var chexbox = fila.querySelector(".checkItem");
                         var aportaAlumno = fila.querySelector(".aportaAlumnoItem");
                         var requisito = fila.querySelector(".requsitoItem")
+                        var requisito = fila.querySelector(".requsitoItem");
+                        var valorMin = fila.querySelector(".valorMinItem");
+                        let notaInput = fila.querySelector('.notaItem');
+
 
                         chexbox.value = item.id;
                         if (chexbox.value == 1) {
@@ -110,9 +114,24 @@ window.addEventListener('load', function () {
 
                         tbody.appendChild(fila);
 
+
+                        
+                        notaInput.addEventListener('change', function () {
+                            valorMin.max = notaInput.value;
+                        });
+
+                        //funcion que habilita o deshabilita en funcion de requsito
+                        requisito.onchange = function () {
+                            if (this.value === 'no') {
+                                valorMin.disabled = true;
+                            } else {
+                                valorMin.disabled = false;
+                            }
+                        };
+
                         chexbox.onchange = function () {
                             //cojo los datos de la fila, menos el checkbox
-                            var inputs = this.parentNode.parentNode.querySelectorAll('input:not(.checkItem), select');
+                            var inputs = this.parentNode.parentNode.querySelectorAll('input:not(.checkItem):not(.valorMinItem), select');
 
                             //deshabilito o habilito cada casilla de la tabla
                             for (var j = 0; j < inputs.length; j++) {

@@ -30,7 +30,7 @@ class Validacion
      *
      * @param string $campo1 Fecha1
      * @param string $campo2 Fecha2
-     * @return int 0 si la fecha1 es anterior a fecha2, 1 si la fecha2 es anterior a fecha1
+     * @return bool Devuelve true si la fecha2 es posterior a la fecha1, false en caso contrario
      */
     public function diferciaFechas($campo1, $campo2)
     {
@@ -44,7 +44,23 @@ class Validacion
         $fecha2 = new DateTime($_POST[$campo2]);
         $intervalo = $fecha1->diff($fecha2);
 
-        return $intervalo ->invert;
+        return $intervalo->invert == 0;
+    }
+
+    /**
+     * Comprueba si al menos uno de los checkboxes con un nombre específico está marcado.
+     *
+     * @param string $campo El nombre del checkbox.
+     * @return bool Devuelve true si al menos uno de los checkboxes está marcado, false en caso contrario.
+     */
+    public function validarCheckbox($campo)
+    {
+        if (!isset($_POST[$campo]) || empty($_POST[$campo])) {
+            $this->errores[$campo] = "El campo $campo no puede estar vacío";
+            return false;
+        }
+
+        return true;
     }
 
     /**

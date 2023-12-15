@@ -1,9 +1,20 @@
 <?php
 //si el formualario ha sido enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $valida = true;
+    //$valida = true;
+    $valida=new Validacion();
+
+    $valida->diferciaFechas('fechaIniSolicitud', 'fechaFinSolicitud');
+    $valida->diferciaFechas('fechaFinSolicitud', 'fechaIniPruebas');
+    $valida->diferciaFechas('fechaIniPruebas', 'fechaFinPruebas');
+    $valida->diferciaFechas('fechaFinPruebas', 'fechaListadoProvisional');
+    $valida->diferciaFechas('fechaListadoProvisional', 'fechaListadoDefinitivo');
+    $valida->Requerido('destino');
+    $valida->validarCheckbox('destinatario');
+    $valida->validarCheckbox('itemBaremable');
+
     $correcto = true;
-    if ($valida) {
+    if ($valida->ValidacionPasada()) {
         switch ($_POST['accion']) {
             case "Crear Convocatoria":
                 //regojo los datos principales de la convocatoria
@@ -110,12 +121,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 //todo recoger los datos del formulario y actualizar la convocatoria
                 break;
         }
+    }else{
+        $_SESSION['noValida'] = true;
     }
 }
 ?>
 <script src="./javaScript/formularioConvocatoriaJs.js"></script>
 <main id="formularioConvocatoria">
     <h2>Manteniminento de Convocatorias</h2>
+    <?php
+            if(isset($_SESSION['noValida']) && $_SESSION['noValida']) {
+                echo("<p class='error'>Revise los campos del formulario</p>");
+                unset($_SESSION['noValida']);
+            }
+            ?>
     <form method="post" action="" name="crearConvocatoria">
 
         <div id="datosGeneralesConvo">
