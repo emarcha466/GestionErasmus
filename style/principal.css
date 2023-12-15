@@ -482,3 +482,8 @@ main#realizarSolicitud form fieldset{
     padding: 1em;
     justify-items: center;
 }
+
+#capture,
+#btnFinalizarFoto{
+    align-self: end;
+}
