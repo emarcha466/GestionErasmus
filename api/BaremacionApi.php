@@ -13,16 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Comprueba si el archivo ha sido subido sin errores
             if ($file['error'] == UPLOAD_ERR_OK) {
                 $nombre = $key . ".pdf";
-                echo (json_encode($nombre));
                 $nombre_temporal = $file['tmp_name'];
                 $destino = $target_dir . $nombre;
 
                 // Mueve el archivo subido al directorio de destino
                 if (move_uploaded_file($nombre_temporal, $destino)) {
-                    echo json_encode("El archivo " . htmlspecialchars($nombre) . " ha sido subido.");
                     $destino_relativo = "./recursos/documentaciones/" . $nombre;
-                    echo json_encode("La ruta del archivo es" . $destino);
-                    
+
                     $archivos_guardados[] = $destino;
                     $item = array(
                         'idItem' => array_shift($idItems), // Usa el primer idItem y lo elimina del array
@@ -30,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     );
                     $items[] = $item;
                 } else {
-                    echo json_encode("Lo siento, hubo un error al subir tu archivo.");
+                    http_response_code(418);
+                    echo (json_encode(["status" => "error", "message" => "No se ha podido subir el archivo"]));
                 }
             }
         }

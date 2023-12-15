@@ -43,6 +43,56 @@ class SolicitudRepo
 
 
     /**
+     * Función que devuelve las solicitudes de una convocatoria específica, ordenadas por la nota más alta.
+     * 
+     * @param int $idConvocatoria El ID de la convocatoria para la cual se deben obtener las solicitudes.
+     * @return array Un array de objetos Solicitud para la convocatoria especificada, ordenados por la nota más alta.
+     */
+    public static function getResultadosConvocatoria($idConvocatoria)
+    {
+        $conexion = GBD::getConexion();
+
+        $sql = "SELECT s.*, SUM(b.notaDefinitiva) as nota
+            FROM solicitud s
+            JOIN baremacion b ON s.id = b.idSolicitud AND s.idConvocatoria = b.idConvocatoria
+            WHERE s.idConvocatoria = :idConvocatoria
+            GROUP BY s.id, s.idConvocatoria
+            ORDER BY nota DESC";
+
+        $stmt = $conexion->prepare($sql);
+        $stmt->bindParam(':idConvocatoria', $idConvocatoria);
+        $stmt->execute();
+
+        $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $solicitudesObjects = [];
+        foreach ($solicitudes as $solicitud) {
+            $solicitudObject = new Solicitud(
+                $solicitud['id'],
+                $solicitud['dni'],
+                $solicitud['apellidos'],
+                $solicitud['nombre'],
+                $solicitud['fechaNac'],
+                $solicitud['curso'],
+                $solicitud['telefono'],
+                $solicitud['correo'],
+                $solicitud['domicilio'],
+                $solicitud['pass'],
+                $solicitud['idConvocatoria'],
+                $solicitud['imagen'],
+                $solicitud['dniTutor'],
+                $solicitud['apellidosTutor'],
+                $solicitud['nombreTutor'],
+                $solicitud['telefonoTutor'],
+                $solicitud['domicilioTutor']
+            );
+            $solicitudesObjects[] = $solicitudObject;
+        }
+
+        return $solicitudesObjects;
+    }
+
+    /**
      * Funcion que devuelve una solicitud buscando por su id
      * 
      * @param int $id Id de la solicitud a buscar
