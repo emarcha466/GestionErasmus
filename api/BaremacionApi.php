@@ -71,11 +71,11 @@ elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
     // Recojo el FormData enviado y creo mi propio $_PUT
     $_PUT = json_decode(file_get_contents("php://input"), true);
     //echo(var_dump($_PUT));
-    if(isset($_PUT['idConvocatoria']) && isset($_PUT['idSolicitud']) && isset($_PUT['items'])){
+    if(isset($_PUT['idConvocatoria']) && isset($_PUT['idSolicitud']) && isset($_PUT['itemsNotas'])){
         
         $idConvocatoria = $_PUT['idConvocatoria'];
         $idSolicitud = $_PUT['idSolicitud'];
-        $items = $_PUT['items'];
+        $items = $_PUT['itemsNotas'];
 
         $rows = BaremacionRepo::updateNotasItems($idConvocatoria, $idSolicitud, $items);
 
@@ -86,8 +86,22 @@ elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
             http_response_code(418);
             echo (json_encode(["status" => "error", "message" => "No se ha podido actualizar la puntuación"]));
         }
-    }else{
+    }elseif(isset($_PUT['idConvocatoria']) && isset($_PUT['idSolicitud']) && isset($_PUT['itemsURL'])){
+        $idConvocatoria = $_PUT['idConvocatoria'];
+        $idSolicitud = $_PUT['idSolicitud'];
+        $items = $_PUT['itemsURL'];
+
+        $rows = BaremacionRepo::updateUrlsItems($idConvocatoria,$idSolicitud,$items);
+        if ($rows > 0) {
+            http_response_code(200);
+            echo (json_encode(["status" => "success", "message" => "URLs actualizadas correctamente"]));
+        } else {
+            http_response_code(418);
+            echo (json_encode(["status" => "error", "message" => "No se ha podido actualizar las URLs"]));
+        }
+    }
+    else{
         http_response_code(418);
-            echo (json_encode(["status" => "error", "message" => "No entro"]));
+            echo (json_encode(["status" => "error", "message" => "No se han enviado los datos requeridos"]));
     }
 }

@@ -224,7 +224,7 @@ window.addEventListener('load', function () {
         let data = {
             "idConvocatoria": idConvocatoria,
             "idSolicitud": idSolicitud,
-            "items": items
+            "itemsNotas": items
         }
 
         fetch("./api/BaremacionApi.php", {

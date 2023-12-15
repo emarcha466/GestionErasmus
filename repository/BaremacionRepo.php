@@ -244,6 +244,36 @@ class BaremacionRepo
     }
 
     /**
+     * Función que actualiza las URLs de varios items pasados en un array.
+     * 
+     * @param int $idConvocatoria El ID de la convocatoria.
+     * @param int $idSolicitud El ID de la solicitud.
+     * @param array $items Array de arrays, donde cada subarray es un clave->valor contiene el 'idItem'-> 'url'.
+     * @return int Devuelve el número de filas afectadas.
+     */
+    public static function updateUrlsItems($idConvocatoria, $idSolicitud, $items)
+    {
+        $conexion = GBD::getConexion();
+        $rows = 0;
+
+        foreach ($items as $item) {
+            $update = "UPDATE baremacion SET url = :url WHERE idConvocatoria = :idConvocatoria AND idSolicitud = :idSolicitud AND idItemBaremable = :idItem;";
+            $stmt = $conexion->prepare($update);
+            $params = [
+                ':idConvocatoria' => $idConvocatoria,
+                ':idSolicitud' => $idSolicitud,
+                ':idItem' => $item['idItem'],
+                ':url' => $item['url']
+            ];
+
+            $stmt->execute($params);
+            $rows += $stmt->rowCount();
+        }
+
+        return $rows;
+    }
+
+    /**
      * Función que inserta una nueva baremacion a la bd
      * 
      * @param Baremacion $baremacion Baremacion a insertar
