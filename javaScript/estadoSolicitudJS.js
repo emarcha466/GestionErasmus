@@ -4,6 +4,7 @@ window.addEventListener('load', function () {
     btnConsultar.addEventListener('click', function (ev) {
         ev.preventDefault()
 
+        //compruebo si existe la solicitud
         if (this.form.valida()) {
             let solicitud = document.getElementById("solicitud")
             let dni = document.getElementById("dni")
@@ -15,9 +16,9 @@ window.addEventListener('load', function () {
                 .then(x => x.json())
                 .then(solicitud => {
                     if (!solicitud) {
-                        muestraError("No se ha encontrado ninguna solicitud con esos credenciales")
+                        muestraError("No se ha encontrado solicitud con los credenciales proporcionados")
                     } else {
-                        abrirModal(solicitud.idConvocatoria, solicitud.id)
+                        abrirModal(solicitud.idConvocatoria, solicitud.id, solicitud.dni)
                     }
                 })
 
@@ -27,7 +28,7 @@ window.addEventListener('load', function () {
 
     })
 
-    function abrirModal(idConvocatoria, idSolicitud) {
+    function abrirModal(idConvocatoria, idSolicitud, dni) {
         //fondo modal
         var modal = document.createElement("div")
         modal.style.position = "fixed"
@@ -97,6 +98,11 @@ window.addEventListener('load', function () {
                         //input para subir el pdf
                         let filePDF = document.createElement('input')
                         filePDF.type = "file"
+                        filePDF.classList ="pdfItem"
+                        filePDF.name = "pdf[]"
+                        filePDF.dataset.id_item = item.idItemBaremable
+                        filePDF.dataset.id_convocatoria = item.idConvocatoria
+                        filePDF.dataset.id_solicitud = item.idSolicitud
                         cell2.appendChild(filePDF)
 
                         //input para ver el pdf subido
@@ -119,13 +125,61 @@ window.addEventListener('load', function () {
                 visualizador.appendChild(table);
 
                 //creo el boton para realizar baremacion
-                let btnBaremacion = document.createElement("input")
-                btnBaremacion.type = "button"
-                btnBaremacion.classList.add("btnPantalla")
-                btnBaremacion.value = "Finalizar Solicitud"
-                visualizador.appendChild(btnBaremacion)
+                let btnSolicitud = document.createElement("input")
+                btnSolicitud.type = "button"
+                btnSolicitud.classList.add("btnPantalla")
+                btnSolicitud.value = "Finalizar Solicitud"
+                btnSolicitud.onclick=function(){
+                    let data = new FormData()
+                    let inputs = Array.from(document.getElementsByClassName("pdfItem"))
+                    let idItems = []
+                    inputs.forEach(input => {
+                        console.log(input.dataset.id_convocatoria + "_" + input.dataset.id_solicitud + "_" + input.dataset.id_item + "_"+dni)
+                        let fileName = input.dataset.id_convocatoria + "_" + input.dataset.id_solicitud + "_" + input.dataset.id_item + "_"+dni;
+                        data.append(fileName, input.files[0]);
+                        idItems.push(input.dataset.id_item)
+                    });
+                    data.append("idSolicitud", idSolicitud)
+                    data.append("idConvocatoria", idConvocatoria)
+                    data.append("idItems", idItems)
+
+                    fetch('./api/BaremacionApi.php/?subirPDF', {
+                        method: 'POST',
+                        body: data
+                    })
+                    .then(response => response.json())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('Error:', error));
+
+                }
+                visualizador.appendChild(btnSolicitud)
             })
     }
+
+    //funcion que envia los pdfs a la api
+    function enviarPDFs(idConvocatoria, idSolicitud, itemsDoc){
+        let data = {
+            "idConvocatoria": idConvocatoria,
+            "idSolicitud": idSolicitud,
+            "itemsDoc": itemsDoc
+        }
+
+        fetch("./api/BaremacionApi.php", {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(x => x.json())
+            .then(y => {
+                if(y.status="success"){
+                    muestraCorrecto(y.message)
+                    document.getElementsByClassName("closer")[0].click()
+                }
+            })
+    }
+
 
 
     // Función para mostrar el PDF
