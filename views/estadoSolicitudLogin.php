@@ -2,13 +2,13 @@
 <?php
 $valida = new Validacion();
 if (isset($_POST['consultaEstado'])) {
-    $valida->Requerido('convocatoria');
+    $valida->Requerido('solicitud');
     $valida->Requerido('dni');
     $valida->Requerido('contrasena');
     //Comprobamos validacion
     if ($valida->ValidacionPasada()) {
-        if (SolicitudRepo::solicitarSolicitud($_POST['convocatoria'], $_POST['dni'], $_POST['contrasena'])) {
-            var_dump("hecho");
+        if (SolicitudRepo::solicitarSolicitud($_POST['solicitud'], $_POST['dni'], $_POST['contrasena'])) {
+            //var_dump("hecho");
         } else {
             $_SESSION['login_error'] = true;
         }
@@ -32,8 +32,8 @@ if (isset($_POST['consultaEstado'])) {
     }
     ?>
     <form action="" method="post">
-        <label for="convocatoria">Convocatoria:</label>
-        <input type="text" name="convocatoria" id="convocatoria" data-valida="relleno">
+        <label for="convocatoria">ID Solicitud:</label>
+        <input type="text" name="solicitud" id="solicitud" data-valida="relleno">
         <label for="dni">DNI:</label>
         <input type="text" name="dni" id="dni" data-valida="dni">
         <label for="contrasena">Contraseña:</label>

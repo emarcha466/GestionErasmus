@@ -5,6 +5,8 @@ if ($_SERVER['REQUEST_METHOD']=='POST')
 {
     if(isset($_POST['destinatario']) && isset($_POST['asunto'])&& isset($_POST['cuerpo'])){
         $correo = new ServicioCorreos($_POST['destinatario'],$_POST['asunto'],$_POST['cuerpo']);
+        $pdf = isset($_POST['pdf']) ? $_POST['pdf'] : null;
+        $correo = new ServicioCorreos($_POST['destinatario'],$_POST['asunto'],$_POST['cuerpo'], $pdf);
         $enviado =$correo -> enviar();
         if($enviado){
             http_response_code(200);

@@ -112,6 +112,7 @@ window.addEventListener('load', function () {
         //visualizador
         var visualizador = document.createElement("div")
         visualizador.id = "modalBaremo"
+        visualizador.classList.add("estrucutraModal")
         visualizador.style.position = "fixed"
         visualizador.style.left = "15%"
         visualizador.style.top = "3%"

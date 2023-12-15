@@ -1,33 +1,33 @@
-window.addEventListener('load', function(){
+window.addEventListener('load', function () {
     let btnConsultar = this.document.getElementById("btnConsultar")
 
-    btnConsultar.addEventListener('click', function(ev){
+    btnConsultar.addEventListener('click', function (ev) {
         ev.preventDefault()
 
-        if(this.form.valida()){
-            let convocatoria = document.getElementById("convocatoria")
+        if (this.form.valida()) {
+            let solicitud = document.getElementById("solicitud")
             let dni = document.getElementById("dni")
             let pass = document.getElementById("contrasena")
-    
-            fetch("./api/SolicitudApi.php?id="+encodeURIComponent(convocatoria.value)+"&dni="+encodeURIComponent(dni.value)+"&pass="+encodeURIComponent(pass.value),{
+
+            fetch("./api/SolicitudApi.php?id=" + encodeURIComponent(solicitud.value) + "&dni=" + encodeURIComponent(dni.value) + "&pass=" + encodeURIComponent(pass.value), {
                 method: 'GET'
             })
-            .then(x=>x.json())
-            .then(y=>{
-                if(!y){
-                    muestraError("No se ha encontrado ninguna solicitud con esos credenciales")
-                }else{
-                    abrirModal(convocatoria, dni, pass)
-                }
-            })
-    
-        }else{
-            muestraError("Debe rellenar todos los campos")
+                .then(x => x.json())
+                .then(solicitud => {
+                    if (!solicitud) {
+                        muestraError("No se ha encontrado ninguna solicitud con esos credenciales")
+                    } else {
+                        abrirModal(solicitud.idConvocatoria, solicitud.id)
+                    }
+                })
+
+        } else {
+            muestraError("Por favor, revise los datos introducidos")
         }
-        
+
     })
 
-    function abrirModal(idConvocatoria, dni, pass) {
+    function abrirModal(idConvocatoria, idSolicitud) {
         //fondo modal
         var modal = document.createElement("div")
         modal.style.position = "fixed"
@@ -41,7 +41,8 @@ window.addEventListener('load', function(){
 
         //visualizador
         var visualizador = document.createElement("div")
-        visualizador.id = "modalBaremo"
+        visualizador.id = "modalSolicitud"
+        visualizador.classList.add("estrucutraModal")
         visualizador.style.position = "fixed"
         visualizador.style.left = "15%"
         visualizador.style.top = "3%"
@@ -72,53 +73,75 @@ window.addEventListener('load', function(){
         })
             .then(x => x.json())
             .then(bare => {
-
                 // Crear tabla
                 var table = document.createElement('table');
                 table.id = "tbBaremaciones"
                 let cabecera = document.createElement('tr');
                 let nombre = document.createElement('th');
                 let nota = document.createElement('th');
-                nombre.innerHTML = "Item"
-                nota.innerHTML = "Nota"
+                nombre.innerHTML = "Requerido"
+                nota.innerHTML = "Archivo"
                 cabecera.appendChild(nombre)
                 cabecera.appendChild(nota)
                 table.appendChild(cabecera)
+
                 bare.forEach(function (item) {
-                    var tr = document.createElement('tr');
-                    var cell1 = document.createElement('td');
-                    var cell2 = document.createElement('td');
-                    cell1.innerHTML = item.nombre;
+                    //para mostrar solos los items que debe aportar el alumno
+                    if (item.aportaAlumno == "si") {
+                        var tr = document.createElement('tr');
+                        var cell1 = document.createElement('td');
+                        var cell2 = document.createElement('td');
+                        var cell3 = document.createElement('td');
+                        cell1.innerHTML = item.nombre;
 
-                    //input para la nota
-                    let input = document.createElement('input')
-                    input.type = "number"
-                    input.value = item.notaProvisional || ''
-                    input.min =0
-                    input.max = item.importancia
-                    input.dataset.id_item = item.idItemBaremable
-                    cell2.appendChild(input)
+                        //input para subir el pdf
+                        let filePDF = document.createElement('input')
+                        filePDF.type = "file"
+                        cell2.appendChild(filePDF)
 
-                    // Agregar evento de clic a la celda
-                    cell1.addEventListener('click', function () {
-                        if(item.aportaAlumno=="si"){
-                            muestraPdf(item.url, visualizador);
+                        //input para ver el pdf subido
+                        let btnPDF = document.createElement('input')
+                        btnPDF.type = "button"
+                        btnPDF.value = "Mostrar PDF Subido"
+                        btnPDF.onclick =function(){
+                            if(item.url != null){
+                                muestraPdf(item.url, visualizador)
+                            }
                         }
-                        
-                    });
+                        cell3.appendChild(btnPDF)
 
-                    tr.appendChild(cell1);
-                    tr.appendChild(cell2);
-                    table.appendChild(tr);
+                        tr.appendChild(cell1);
+                        tr.appendChild(cell2);
+                        tr.appendChild(cell3);
+                        table.appendChild(tr);
+                    }
                 });
                 visualizador.appendChild(table);
 
                 //creo el boton para realizar baremacion
                 let btnBaremacion = document.createElement("input")
-                btnBaremacion.type="button"
+                btnBaremacion.type = "button"
                 btnBaremacion.classList.add("btnPantalla")
-                btnBaremacion.value="Realizar Baremacion"
+                btnBaremacion.value = "Finalizar Solicitud"
                 visualizador.appendChild(btnBaremacion)
             })
+    }
+
+
+    // Función para mostrar el PDF
+    function muestraPdf(url, contenedor) {
+        // Si ha un visor antiguo lo elimino
+        var visorAntiguo = document.querySelector('#pdfViewer');
+        if (visorAntiguo) {
+            contenedor.removeChild(visorAntiguo);
+        }
+
+        // Crear nuevo visor de PDF
+        var pdfViewer = document.createElement('iframe');
+        pdfViewer.id = 'pdfViewer';
+        pdfViewer.style.width = '100%';
+        pdfViewer.style.height = '70%';
+        pdfViewer.src = url;
+        contenedor.appendChild(pdfViewer);
     }
 })

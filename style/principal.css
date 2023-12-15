@@ -457,18 +457,19 @@ main#realizarSolicitud form fieldset{
 
 
 /*Ventana modal*/
-#modalBaremo{
+
+.estrucutraModal{
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 1em;
     row-gap: 2em;
 }
-#modalBaremo table{
+.estrucutraModal table{
     border-collapse: separate;
     border-spacing: 15px;
 }
-#modalBaremo table input{
+.estrucutraModal table input{
     padding: 0.5em 1em;
     border-radius: 1em;
 }
