@@ -122,6 +122,7 @@ window.addEventListener('load', function () {
         document.body.appendChild(visualizador)
 
         var closer = document.createElement("img")
+        closer.classList.add("closer")
         closer.src = "./recursos/img/cerrar.png"
         closer.width = 30
         closer.style.position = "fixed"
@@ -136,12 +137,15 @@ window.addEventListener('load', function () {
             document.body.removeChild(this)
         }
 
+
+
         //llamada para traerme la baremacion
         fetch("./api/BaremacionApi.php?idConvocatoria=" + encodeURIComponent(idConvocatoria) + "&idSolicitud=" + encodeURIComponent(idSolicitud), {
             method: 'GET'
         })
             .then(x => x.json())
             .then(bare => {
+
 
                 // Crear tabla
                 var table = document.createElement('table');
@@ -154,6 +158,9 @@ window.addEventListener('load', function () {
                 cabecera.appendChild(nombre)
                 cabecera.appendChild(nota)
                 table.appendChild(cabecera)
+
+
+                //Creo la tabla con los items baremables
                 bare.forEach(function (item) {
                     var tr = document.createElement('tr');
                     var cell1 = document.createElement('td');
@@ -163,39 +170,77 @@ window.addEventListener('load', function () {
                     //input para la nota
                     let input = document.createElement('input')
                     input.type = "number"
+                    input.classList.add("notasItems")
                     input.value = item.notaProvisional || ''
-                    input.min =0
+                    input.min = 0
                     input.max = item.importancia
                     input.dataset.id_item = item.idItemBaremable
                     cell2.appendChild(input)
 
                     // Agregar evento de clic a la celda
                     cell1.addEventListener('click', function () {
-                        if(item.aportaAlumno=="si"){
+                        if (item.aportaAlumno == "si") {
                             muestraPdf(item.url, visualizador);
+                        } else {
+                            let visorAntiguo = document.querySelector('#pdfViewer');
+                            if (visorAntiguo) {
+                                visualizador.removeChild(visorAntiguo);
+                            }
                         }
-                        
+
                     });
 
                     tr.appendChild(cell1);
                     tr.appendChild(cell2);
                     table.appendChild(tr);
+
+                    //guardo los datos del item 
                 });
                 visualizador.appendChild(table);
 
                 //creo el boton para realizar baremacion
                 let btnBaremacion = document.createElement("input")
-                btnBaremacion.type="button"
+                btnBaremacion.type = "button"
                 btnBaremacion.classList.add("btnPantalla")
-                btnBaremacion.value="Realizar Baremacion"
+                btnBaremacion.value = "Realizar Baremacion"
                 visualizador.appendChild(btnBaremacion)
-                btnBaremacion.onclick=realiarBaremacion()
+                btnBaremacion.onclick = function () {
+                    const arrayNotas = []
+                    let itemsNotas = Array.from(document.getElementsByClassName("notasItems"))
+                    itemsNotas.forEach(item => {
+
+                        arrayNotas.push({
+                            'idItem': item.dataset.id_item,
+                            'nota': item.value
+                        });
+                    })
+                    realizarBaremacion(idConvocatoria, idSolicitud, arrayNotas)
+                }
             })
     }
 
     //Realizar la baremacion
-    function realiarBaremacion(){
-        
+    function realizarBaremacion(idConvocatoria, idSolicitud, items) {
+        let data = {
+            "idConvocatoria": idConvocatoria,
+            "idSolicitud": idSolicitud,
+            "items": items
+        }
+
+        fetch("./api/BaremacionApi.php", {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(x => x.json())
+            .then(y => {
+                if(y.status="success"){
+                    muestraCorrecto(y.message)
+                    document.getElementsByClassName("closer")[0].click()
+                }
+            })
     }
 
 

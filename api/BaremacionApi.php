@@ -68,5 +68,26 @@ elseif ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
         }
 } 
 elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
-    
+    // Recojo el FormData enviado y creo mi propio $_PUT
+    $_PUT = json_decode(file_get_contents("php://input"), true);
+    //echo(var_dump($_PUT));
+    if(isset($_PUT['idConvocatoria']) && isset($_PUT['idSolicitud']) && isset($_PUT['items'])){
+        
+        $idConvocatoria = $_PUT['idConvocatoria'];
+        $idSolicitud = $_PUT['idSolicitud'];
+        $items = $_PUT['items'];
+
+        $rows = BaremacionRepo::updateNotasItems($idConvocatoria, $idSolicitud, $items);
+
+        if ($rows > 0) {
+            http_response_code(200);
+            echo (json_encode(["status" => "success", "message" => "Puntuación actualizada correctamente"]));
+        } else {
+            http_response_code(418);
+            echo (json_encode(["status" => "error", "message" => "No se ha podido actualizar la puntuación"]));
+        }
+    }else{
+        http_response_code(418);
+            echo (json_encode(["status" => "error", "message" => "No entro"]));
+    }
 }

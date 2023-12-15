@@ -1,6 +1,8 @@
 <script src="./javaScript/revisionSolicitudesJs.js"></script>
 <main id="revisionSolicitudes">
     <h2>Revisión de solicitudes</h2>
+    <p class="success" style="display: none;"></p>
+    <p class="error" style="display: none;"></p>
     <div id="listadoConvocatorias">
         <h3>Convocatorias</h3>
         <table id="listadoConvocatorias">

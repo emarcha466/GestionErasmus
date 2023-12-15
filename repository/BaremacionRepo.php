@@ -186,6 +186,63 @@ class BaremacionRepo
         return $rows;
     }
 
+
+    /**
+     * Función que actualiza las notas de una baremación con los parámetros pasados como argumentos.
+     * 
+     * @param int $idConvocatoria El ID de la convocatoria.
+     * @param int $idSolicitud El ID de la solicitud.
+     * @param int $idItem El ID del ítem baremable.
+     * @param int $nota La nota a actualizar.
+     * @return int Devuelve 1 si se actualiza correctamente, 0 en caso contrario.
+     */
+    public static function updateNotas($idConvocatoria, $idSolicitud, $idItem, $nota)
+    {
+        $conexion = GBD::getConexion();
+        $update = "UPDATE baremacion SET notaProvisional = :nota, notaDefinitiva = :nota WHERE idConvocatoria = :idConvocatoria AND idSolicitud = :idSolicitud AND idItemBaremable = :idItem;";
+        $stmt = $conexion->prepare($update);
+        $params = [
+            ':idConvocatoria' => $idConvocatoria,
+            ':idSolicitud' => $idSolicitud,
+            ':idItem' => $idItem,
+            ':nota' => $nota
+        ];
+
+        $stmt->execute($params);
+        $rows = $stmt->rowCount();
+        return $rows;
+    }
+
+    /**
+     * Función que actualiza las notas de varios items pasados en un array.
+     * 
+     * @param int $idConvocatoria El ID de la convocatoria.
+     * @param int $idSolicitud El ID de la solicitud.
+     * @param array $items Array de arrays, donde cada subarray es un clave->valor contiene el 'idItem'-> 'nota'.
+     * @return int Devuelve el número de filas afectadas.
+     */
+    public static function updateNotasItems($idConvocatoria, $idSolicitud, $items)
+    {
+        $conexion = GBD::getConexion();
+        $rows = 0;
+
+        foreach ($items as $item) {
+            $update = "UPDATE baremacion SET notaProvisional = :nota, notaDefinitiva = :nota WHERE idConvocatoria = :idConvocatoria AND idSolicitud = :idSolicitud AND idItemBaremable = :idItem;";
+            $stmt = $conexion->prepare($update);
+            $params = [
+                ':idConvocatoria' => $idConvocatoria,
+                ':idSolicitud' => $idSolicitud,
+                ':idItem' => $item['idItem'],
+                ':nota' => $item['nota']
+            ];
+
+            $stmt->execute($params);
+            $rows += $stmt->rowCount();
+        }
+
+        return $rows;
+    }
+
     /**
      * Función que inserta una nueva baremacion a la bd
      * 
